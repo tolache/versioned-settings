@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+  <tools>
+    <default-versions>
+      <tool-version tool-type="NUnit.Console" id="NUnit.Console.3.10.0" />
+      <tool-version tool-type="JetBrains.dotCover.CommandLineTools" id="JetBrains.dotCover.CommandLineTools.bundled" />
+      <tool-version tool-type="sonar-scanner-msbuild" id="sonar-scanner-msbuild.4.6.2.2108" />
+      <tool-version tool-type="intellij" id="intellij.IU-192.6817.14" />
+      <tool-version tool-type="NuGet.CommandLine" id="NuGet.CommandLine.5.1.0" />
+    </default-versions>
+  </tools>
+</settings>
+
