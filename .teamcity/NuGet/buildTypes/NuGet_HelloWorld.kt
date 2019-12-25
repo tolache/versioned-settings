@@ -2,6 +2,7 @@ package NuGet.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.VisualStudioStep
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.nuGetInstaller
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.visualStudio
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.vcs
 
@@ -10,8 +11,8 @@ object NuGet_HelloWorld : BuildType({
     name = "HelloWorld"
 
     params {
-        param("teamcity.nuget.feed.guestAuth._Root.default.v2", "")
         param("env.microsoft.nuget.feed", "")
+        param("teamcity.nuget.feed.guestAuth._Root.default.v2", "")
     }
 
     vcs {
@@ -26,6 +27,16 @@ object NuGet_HelloWorld : BuildType({
             runPlatform = VisualStudioStep.Platform.x86
             msBuildVersion = VisualStudioStep.MSBuildVersion.V16_0
             msBuildToolsVersion = VisualStudioStep.MSBuildToolsVersion.V16_0
+        }
+        nuGetInstaller {
+            name = "Restore packages"
+            id = "RUNNER_24"
+            toolPath = "%teamcity.tool.NuGet.CommandLine.DEFAULT%"
+            projects = "Hello_World/Hello_World.sln"
+            sources = """
+                %env.microsoft.nuget.feed%
+                %env.teamcity.nuget.feed%ddd
+            """.trimIndent()
         }
     }
 
