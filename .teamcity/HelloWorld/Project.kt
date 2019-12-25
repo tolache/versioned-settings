@@ -11,7 +11,6 @@ object Project : Project({
     name = "Hello_World"
     defaultTemplate = RelativeId("CheckoutOnAgentTemplate")
 
-    vcsRoot(HelloWorld_HttpsGithubComTolachePowerShellTestRefsHeadsMaster)
     vcsRoot(HelloWorld_HttpsGithubComTolacheHelloSayerRefsHeadsMaster)
     vcsRoot(HelloWorld_HttpsGithubComTolacheHelloWorldRefsHeadsMaster)
 
