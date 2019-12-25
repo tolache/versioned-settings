@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="8becfeb5-77e0-4067-8f03-fae55f289c50" xsi:noNamespaceSchemaLocation="https://www.jetbrains.com/teamcity/schemas/2018.1/project-config.xsd">
-  <name>Build Chain</name>
-  <description>Test for 2271902</description>
-  <parameters />
-  <cleanup />
-</project>
-
