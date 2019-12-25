@@ -9,7 +9,6 @@ object Project : Project({
     id("Idea")
     name = "IDEA"
 
-    vcsRoot(Idea_HttpsGithubComTolacheTestPrRefsHeadsMaster)
     vcsRoot(Idea_JavaSample)
     vcsRoot(Idea_HttpsGithubComTolacheTw62337refsHeadsMaster)
 
