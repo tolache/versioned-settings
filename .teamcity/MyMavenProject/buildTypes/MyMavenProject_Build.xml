@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build-type xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="96afe00c-e460-4193-acbe-744c699b05f7" xsi:noNamespaceSchemaLocation="https://www.jetbrains.com/teamcity/schemas/2018.1/project-config.xsd">
+  <name>Build</name>
+  <description />
+  <settings>
+    <parameters>
+      <param name="system.path.macro.MAVEN.REPOSITORY" value="https://repo1.maven.org/maven2/" />
+    </parameters>
+    <build-runners>
+      <runner id="RUNNER_17" name="" type="Maven2">
+        <parameters>
+          <param name="goals" value="clean test" />
+          <param name="localRepoScope" value="agent" />
+          <param name="maven.path" value="%teamcity.tool.maven.DEFAULT%" />
+          <param name="pomLocation" value="pom.xml" />
+          <param name="runnerArgs" value="-Dmaven.test.failure.ignore=true" />
+          <param name="teamcity.coverage.idea.includePatterns" value="*.*" />
+          <param name="teamcity.coverage.jacoco.classpath" value="+:build/main/**/*.class" />
+          <param name="teamcity.coverage.runner" value="JACOCO" />
+          <param name="teamcity.step.mode" value="default" />
+          <param name="teamcity.tool.jacoco" value="%teamcity.tool.jacoco.0.8.4%" />
+          <param name="userSettingsSelection" value="userSettingsSelection:default" />
+        </parameters>
+      </runner>
+    </build-runners>
+    <vcs-settings>
+      <vcs-entry-ref root-id="MyMavenProject_JacocoMavenUnittestv2" />
+    </vcs-settings>
+    <requirements />
+    <build-triggers />
+    <build-extensions>
+      <extension id="swabra" type="swabra">
+        <parameters>
+          <param name="swabra.processes" value="report" />
+          <param name="swabra.rules" value="+:C:\Temp\buildTmp\" />
+          <param name="swabra.strict" value="true" />
+          <param name="swabra.verbose" value="true" />
+        </parameters>
+      </extension>
+    </build-extensions>
+    <cleanup />
+  </settings>
+</build-type>
+

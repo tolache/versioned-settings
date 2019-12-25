@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="30f6d705-82cd-4592-89e2-d3e096d609f3" xsi:noNamespaceSchemaLocation="https://www.jetbrains.com/teamcity/schemas/2018.1/project-config.xsd">
+  <name>&lt;Root project&gt;</name>
+  <description>Contains all other projects</description>
+  <parameters />
+  <project-extensions>
+    <extension id="PROJECT_EXT_1" type="ReportTab">
+      <parameters>
+        <param name="startPage" value="coverage.zip!index.html" />
+        <param name="title" value="Code Coverage" />
+        <param name="type" value="BuildReportTab" />
+      </parameters>
+    </extension>
+    <extension id="PROJECT_EXT_11" type="OAuthProvider">
+      <parameters>
+        <param name="clientId" value="8da7bc0b2e8f83ad7cb867a9b240740ee9528df6820e324e2222d644712eaa07" />
+        <param name="displayName" value="QA GitLab" />
+        <param name="gitLabUrl" value="http://tcqa-gitlab.labs.intellij.net/" />
+        <param name="providerType" value="GitLabCEorEE" />
+        <param name="secure:clientSecret" value="credentialsJSON:f5c8ffe7-ee26-4a4c-aaec-500de39f9358" />
+      </parameters>
+    </extension>
+    <extension id="PROJECT_EXT_13" type="OAuthProvider">
+      <parameters>
+        <param name="displayName" value="Azure DevOps" />
+        <param name="providerType" value="tfs" />
+        <param name="secure:accessToken" value="credentialsJSON:ec7e5900-df80-49a7-b537-58b1e6126ff3" />
+        <param name="serverUrl" value="https://dev.azure.com/tolache/" />
+        <param name="type" value="token" />
+      </parameters>
+    </extension>
+    <extension id="PROJECT_EXT_2" type="OAuthProvider">
+      <parameters>
+        <param name="clientId" value="4dc6d9c981ccc60ce1e7" />
+        <param name="defaultTokenScope" value="public_repo,repo,repo:status,write:repo_hook" />
+        <param name="displayName" value="GitHub.com" />
+        <param name="gitHubUrl" value="https://github.com/" />
+        <param name="providerType" value="GitHub" />
+        <param name="secure:clientSecret" value="credentialsJSON:19f564cd-8d77-4ba7-b1d8-2588f6232b88" />
+      </parameters>
+    </extension>
+    <extension id="PROJECT_EXT_3" type="OAuthProvider">
+      <parameters>
+        <param name="clientId" value="hstAFKDfa7FPYt9jvE" />
+        <param name="displayName" value="Bitbucket Cloud" />
+        <param name="providerType" value="BitBucketCloud" />
+        <param name="secure:clientSecret" value="credentialsJSON:11d7a03f-05ec-4664-8086-fa68222a4021" />
+      </parameters>
+    </extension>
+    <extension id="PROJECT_EXT_4" type="versionedSettings">
+      <parameters>
+        <param name="buildSettings" value="PREFER_CURRENT" />
+        <param name="credentialsStorageType" value="credentialsJSON" />
+        <param name="enabled" value="true" />
+        <param name="rootId" value="VersionedSettings" />
+        <param name="showChanges" value="false" />
+      </parameters>
+    </extension>
+    <extension id="repository-nuget-RootNuGetFeed" type="PackageRepository">
+      <parameters>
+        <param name="description" value="Root project NuGet Feed" />
+        <param name="name" value="RootNuGetFeed" />
+        <param name="type" value="nuget" />
+      </parameters>
+    </extension>
+  </project-extensions>
+  <cleanup>
+    <options>
+      <option name="preventDependenciesArtifactsFromCleanup" value="false" />
+    </options>
+  </cleanup>
+</project>
+

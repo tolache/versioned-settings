@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vcs-root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="7ac80e6d-482e-45f8-8993-5ebccb7ad85e" type="perforce" xsi:noNamespaceSchemaLocation="https://www.jetbrains.com/teamcity/schemas/2018.1/project-config.xsd">
+  <name>QAPerforce</name>
+  <param name="client" value="tola-ubuntu" />
+  <param name="p4-exe" value="p4" />
+  <param name="port" value="172.31.128.103:1666" />
+  <param name="secure:passwd" value="credentialsJSON:ee38efdf-b89a-45a0-9056-d736df00c0d1" />
+  <param name="stream" value="//tola/files" />
+  <param name="teamcity:branchSpec" value="+://tola/*" />
+  <param name="use-client" value="stream" />
+  <param name="use-dag" value="true" />
+  <param name="use-p4-clean" value="true" />
+  <param name="user" value="jetbrains" />
+  <param name="workspace-options"><![CDATA[Options:        noallwrite clobber nocompress unlocked nomodtime rmdir
+Host:           %teamcity.agent.hostname%
+SubmitOptions:  revertunchanged
+LineEnd:        local]]></param>
+</vcs-root>
+

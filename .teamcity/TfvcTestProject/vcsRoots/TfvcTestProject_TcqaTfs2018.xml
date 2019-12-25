@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vcs-root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="a0d7e0f0-5cd4-428e-8f62-94f286b30cef" type="tfs" xsi:noNamespaceSchemaLocation="https://www.jetbrains.com/teamcity/schemas/2018.1/project-config.xsd">
+  <name>tcqa-tfs2018</name>
+  <param name="secure:tfs-password" value="credentialsJSON:ee38efdf-b89a-45a0-9056-d736df00c0d1" />
+  <param name="tfs-root" value="$/Bank" />
+  <param name="tfs-url" value="http://tcqa-tfs2018:81/InitialCollection/" />
+  <param name="tfs-username" value="jetbrains" />
+</vcs-root>
+

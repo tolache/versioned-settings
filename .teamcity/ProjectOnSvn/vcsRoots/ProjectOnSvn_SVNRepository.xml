@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vcs-root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="svn" xsi:noNamespaceSchemaLocation="https://www.jetbrains.com/teamcity/schemas/2018.1/project-config.xsd">
+  <name>BankSVN</name>
+  <param name="enable-unsafe-ssl" value="true" />
+  <param name="externals-mode" value="externals-none" />
+  <param name="labelingMessage" value="Labeled automatically by TeamCity" />
+  <param name="labelingPatterns" value="trunk=&gt;tags" />
+  <param name="secure:svn-password" value="credentialsJSON:ceeacea7-42f9-4fe1-9104-f51fd199a848" />
+  <param name="svn-config-directory" value="C:\Windows\system32\config\systemprofile\AppData\Roaming\Subversion" />
+  <param name="svn-use-default-config-directory" value="true" />
+  <param name="url" value="https://UNIT-905.Labs.IntelliJ.Net:8443/svn/BankSVN/" />
+  <param name="user" value="SVNuser" />
+  <param name="working-copy-format" value="1.8" />
+</vcs-root>
+

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build-type xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="2339731f-9ad4-437e-a43c-29adf83ef638" xsi:noNamespaceSchemaLocation="https://www.jetbrains.com/teamcity/schemas/2018.1/project-config.xsd">
+  <name>HelloWorld</name>
+  <description />
+  <settings ref="NuGet">
+    <disabled-settings>
+      <setting-ref ref="RUNNER_39" />
+    </disabled-settings>
+    <parameters>
+      <param name="env.microsoft.nuget.feed" value="" />
+      <param name="teamcity.nuget.feed.guestAuth._Root.default.v2" value="" />
+    </parameters>
+    <build-runners>
+      <runner id="RUNNER_39" name="" type="jb.nuget.installer">
+        <parameters>
+          <param name="nuget.path" value="%teamcity.tool.NuGet.CommandLine.DEFAULT%" />
+          <param name="nuget.sources" value="http://unit-905.labs.intellij.net:8110/httpAuth/app/nuget/feed/_Root/RootNuGetFeed/v3/index.json" />
+          <param name="nuget.updatePackages.mode" value="sln" />
+          <param name="nuget.use.restore" value="restore" />
+          <param name="sln.path" value="Hello_World/Hello_World.sln" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_33" name="" type="VS.Solution">
+        <parameters>
+          <param name="build-file-path" value="Hello_World/Hello_World.sln" />
+          <param name="msbuild_version" value="16.0" />
+          <param name="run-platform" value="x86" />
+          <param name="targets" value="Rebuild" />
+          <param name="teamcity.step.mode" value="default" />
+          <param name="toolsVersion" value="Current" />
+          <param name="vs.version" value="vs2019" />
+        </parameters>
+      </runner>
+    </build-runners>
+    <vcs-settings>
+      <vcs-entry-ref root-id="NuGet_HttpsGithubComTolacheHelloWorldRefsHeadsMaster" />
+    </vcs-settings>
+    <requirements />
+    <build-triggers>
+      <build-trigger id="vcsTrigger" type="vcsTrigger">
+        <parameters>
+          <param name="branchFilter" value="+:*" />
+          <param name="enableQueueOptimization" value="true" />
+          <param name="quietPeriodMode" value="DO_NOT_USE" />
+        </parameters>
+      </build-trigger>
+    </build-triggers>
+    <cleanup />
+  </settings>
+</build-type>
+

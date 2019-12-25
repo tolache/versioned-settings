@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vcs-root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="0c94aa56-fd66-4ecb-8346-91f7a5656f52" type="tfs" xsi:noNamespaceSchemaLocation="https://www.jetbrains.com/teamcity/schemas/2018.1/project-config.xsd">
+  <name>tfs: https://dev.azure.com/tolache/ $/TFVC_Test_Project</name>
+  <param name="secure:tfs-password" value="credentialsJSON:deecfbf8-21c1-4c39-b285-9e99836b7f79" />
+  <param name="tfs-root" value="$/TFVC_Test_Project" />
+  <param name="tfs-url" value="https://dev.azure.com/tolache" />
+  <param name="tfs-username" value="admin" />
+</vcs-root>
+

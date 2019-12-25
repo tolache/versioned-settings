@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="4f1c0156-e7a3-4f3d-8d7d-e59b89d75350" xsi:noNamespaceSchemaLocation="https://www.jetbrains.com/teamcity/schemas/2018.1/project-config.xsd">
+  <name>Pizza Evaluator</name>
+  <parameters />
+  <project-extensions>
+    <extension id="PROJECT_EXT_15" type="IssueTracker">
+      <parameters>
+        <param name="host" value="https://dev.azure.com/tolache/Pizza_Evaluator/" />
+        <param name="name" value="tolache Azure DevOps" />
+        <param name="pattern" value="#(\d+)" />
+        <param name="secure:password" value="credentialsJSON:ec7e5900-df80-49a7-b537-58b1e6126ff3" />
+        <param name="type" value="tfs" />
+        <param name="username" value="" />
+      </parameters>
+    </extension>
+  </project-extensions>
+  <cleanup />
+</project>
+

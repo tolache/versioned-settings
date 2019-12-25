@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vcs-root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="c3e696e4-223f-4a92-a202-0da3c5116848" type="jetbrains.git" xsi:noNamespaceSchemaLocation="https://www.jetbrains.com/teamcity/schemas/2018.1/project-config.xsd">
+  <name>http://tcqa-gitlab.labs.intellij.net/jetbrains/acherenkov-test.git#refs/heads/master</name>
+  <param name="agentCleanFilesPolicy" value="ALL_UNTRACKED" />
+  <param name="agentCleanPolicy" value="ON_BRANCH_CHANGE" />
+  <param name="authMethod" value="PASSWORD" />
+  <param name="branch" value="refs/heads/master" />
+  <param name="ignoreKnownHosts" value="true" />
+  <param name="secure:password" value="credentialsJSON:ee38efdf-b89a-45a0-9056-d736df00c0d1" />
+  <param name="submoduleCheckout" value="CHECKOUT" />
+  <param name="teamcity:branchSpec"><![CDATA[+:refs/heads/*
+-:refs/heads/develop]]></param>
+  <param name="url" value="http://tcqa-gitlab.labs.intellij.net/jetbrains/acherenkov-test.git" />
+  <param name="useAlternates" value="true" />
+  <param name="username" value="jetbrains" />
+  <param name="usernameStyle" value="USERID" />
+</vcs-root>
+

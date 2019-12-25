@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://www.jetbrains.com/teamcity/schemas/2018.1/project-config.xsd">
+  <name>PowerShellTest</name>
+  <parameters />
+  <project-extensions>
+    <extension id="PROJECT_EXT_10" type="buildtype-graphs">
+      <parameters>
+        <param name="defaultFilters" value="" />
+        <param name="format" value="size" />
+        <param name="hideFilters" value="" />
+        <param name="series"><![CDATA[[
+  {
+    "type": "valueType",
+    "title": "FreePhysicalMemory",
+    "key": "FreePhysicalMemory"
+  }
+]]]></param>
+        <param name="seriesTitle" value="MySerie" />
+        <param name="title" value="FreePhysicalMemory" />
+      </parameters>
+    </extension>
+    <extension id="PROJECT_EXT_12" type="storage_settings">
+      <parameters>
+        <param name="account-name" value="acherenkovartifacts" />
+        <param name="secure:account-key" value="credentialsJSON:5ec54136-a7df-43c1-aca9-ffbab4f4b142" />
+        <param name="storage.name" value="Azure" />
+        <param name="storage.type" value="azure-storage" />
+      </parameters>
+    </extension>
+    <extension id="PROJECT_EXT_14" type="storage_settings">
+      <parameters>
+        <param name="aws.access.key.id" value="AKIA5JH2VERVPHBFYDM3" />
+        <param name="aws.credentials.type" value="aws.access.keys" />
+        <param name="aws.external.id" value="TeamCity-server-b98e603d-0bd5-4de5-a49c-ac3590e06148" />
+        <param name="aws.region.name" value="eu-west-3" />
+        <param name="secure:aws.secret.access.key" value="credentialsJSON:b28b8d2c-0167-46d1-8064-1b7850b1c72d" />
+        <param name="storage.name" value="S3 Storage" />
+        <param name="storage.s3.bucket.name" value="acherenkov-test" />
+        <param name="storage.s3.upload.numberOfRetries" value="2" />
+        <param name="storage.s3.upload.presignedUrl.enabled" value="true" />
+        <param name="storage.type" value="S3_storage" />
+      </parameters>
+    </extension>
+    <extension id="PROJECT_EXT_17" type="active_storage">
+      <parameters>
+        <param name="active.storage.feature.id" value="DefaultStorage" />
+      </parameters>
+    </extension>
+    <extension id="PROJECT_EXT_7" type="CloudImage">
+      <parameters>
+        <param name="agent_pool_id" value="-2" />
+        <param name="amazon-id" value="ami-04741c47dcd3ed7d5" />
+        <param name="ebs-optimized" value="false" />
+        <param name="image-instances-limit" value="1" />
+        <param name="image-name-prefix" value="Amazon Windows Agent" />
+        <param name="instance-type" value="t3.micro" />
+        <param name="profileId" value="amazon-3" />
+        <param name="security-group-ids" value="sg-933d5efa," />
+        <param name="source-id" value="Amazon Windows Agent" />
+        <param name="subnet-id" value="" />
+        <param name="use-spot-instances" value="false" />
+        <param name="user-script" value="dir" />
+        <param name="user-tags" value="" />
+      </parameters>
+    </extension>
+    <extension id="PROJECT_EXT_8" type="project-graphs">
+      <parameters>
+        <param name="format" value="text" />
+        <param name="series"><![CDATA[[
+  {
+    "type": "valueType",
+    "title": "Artifacts Size",
+    "sourceBuildTypeId": "PowerShellTest_Build",
+    "key": "VisibleArtifactsSize"
+  },
+  {
+    "type": "valueType",
+    "title": "Build Artifacts Publishing Time",
+    "sourceBuildTypeId": "PowerShellTest_Build",
+    "key": "buildStageDuration:artifactsPublishing"
+  }
+]]]></param>
+        <param name="seriesTitle" value="Serie" />
+        <param name="title" value="New chart" />
+      </parameters>
+    </extension>
+    <extension id="PROJECT_EXT_9" type="OAuthProvider">
+      <parameters>
+        <param name="displayName" value="Azure DevOps" />
+        <param name="providerType" value="tfs" />
+        <param name="secure:accessToken" value="credentialsJSON:deecfbf8-21c1-4c39-b285-9e99836b7f79" />
+        <param name="serverUrl" value="https://dev.azure.com/tolache/" />
+        <param name="type" value="token" />
+      </parameters>
+    </extension>
+    <extension id="amazon-3" type="CloudProfile">
+      <parameters>
+        <param name="agentPushPreset" value="" />
+        <param name="cloud-code" value="amazon" />
+        <param name="description" value="" />
+        <param name="enabled" value="true" />
+        <param name="max-running-instances" value="1" />
+        <param name="name" value="Amazon" />
+        <param name="next-hour" value="" />
+        <param name="not-checked" value="" />
+        <param name="profileId" value="amazon-3" />
+        <param name="profileServerUrl" value="http://unit-905.labs.intellij.net:8110" />
+        <param name="region" value="eu-north-1" />
+        <param name="secure:access-id" value="credentialsJSON:38f8833c-6c80-4522-bcb1-4555494bb1e0" />
+        <param name="secure:secret-key" value="credentialsJSON:260ae35f-b524-4109-acde-c29ef483a5c7" />
+        <param name="system.cloud.profile_id" value="amazon-3" />
+        <param name="terminate-after-build" value="true" />
+        <param name="terminate-idle-time" value="30" />
+        <param name="total-work-time" value="" />
+      </parameters>
+    </extension>
+  </project-extensions>
+  <cleanup />
+</project>
+
