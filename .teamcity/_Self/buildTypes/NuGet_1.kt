@@ -16,7 +16,7 @@ object NuGet_1 : Template({
             projects = "Hello_World/Hello_World.sln"
             sources = """
                 %env.microsoft.nuget.feed%
-                 %teamcity.nuget.feed.guestAuth._Root.default.v2%
+                %env.teamcity.nuget.feed%
             """.trimIndent()
         }
     }
