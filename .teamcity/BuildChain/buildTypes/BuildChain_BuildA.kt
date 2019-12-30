@@ -8,21 +8,16 @@ object BuildChain_BuildA : BuildType({
 
     vcs {
         root(BuildChain.vcsRoots.BuildChain_RepoA)
+        root(BuildChain.vcsRoots.BuildChain_RepoB, "+:. => B")
     }
 
     steps {
         script {
             scriptContent = """
-                echo "file.txt content:"
+                echo "repoA file.txt content:"
                 cat file.txt
-                echo "##teamcity[testStarted   flowId='0' name='test0']"
-                echo "##teamcity[testStarted   flowId='1' name='test1']"
-                echo "##teamcity[testFailed    flowId='0' name='test0']"
-                echo "##teamcity[message     flowId='0' text='about test0']"
-                echo "##teamcity[message     flowId='1' text='about test1']"
-                echo "##teamcity[testFinished flowId='0' name='test0']"
-                echo "##teamcity[testFinished flowId='1' name='test1']"
-                echo "##teamcity[testMetadata testName='test0' name='a url' type='link' value='https://apple.com']"
+                echo "repoB file.txt content:"
+                cat B\file.txt
             """.trimIndent()
         }
     }

@@ -20,7 +20,7 @@ object Project : Project({
             displayName = "tolache Azure DevOps"
             host = "https://dev.azure.com/tolache/Pizza_Evaluator/"
             userName = ""
-            password = "credentialsJSON:ec7e5900-df80-49a7-b537-58b1e6126ff3"
+            password = "credentialsJSON:81edbf6a-4382-480f-b0f4-29ae75c29e3c"
             pattern = """#(\d+)"""
         }
     }

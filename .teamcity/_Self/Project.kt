@@ -17,6 +17,10 @@ object Project : Project({
     template(CheckoutOnAgentTemplate)
     template(NuGet_1)
 
+    params {
+        param("azure.devops.token", "yyy6x3di65rndxr3jz4fvsq5dm6of736wbjexra2ujaokfkhqjrq")
+    }
+
     features {
         buildReportTab {
             id = "PROJECT_EXT_1"

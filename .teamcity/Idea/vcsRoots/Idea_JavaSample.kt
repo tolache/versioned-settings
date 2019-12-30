@@ -8,6 +8,6 @@ object Idea_JavaSample : GitVcsRoot({
     url = "https://github.com/tolache/JavaSample"
     authMethod = password {
         userName = "tolache"
-	password = ""
+        password = ""
     }
 })
