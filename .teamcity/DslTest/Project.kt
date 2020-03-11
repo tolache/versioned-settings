@@ -18,7 +18,7 @@ object Project : Project({
     buildType(DslTest_BuildA)
 
     params {
-        param("teamcity.ui.settings.readOnly", "false")
+        param("teamcity.ui.settings.readOnly", "true")
     }
 
     features {
