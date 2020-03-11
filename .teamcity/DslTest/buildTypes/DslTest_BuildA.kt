@@ -19,6 +19,7 @@ object DslTest_BuildA : BuildType({
             """.trimIndent()
         }
         script {
+            enabled = false
             scriptContent = """echo "Hahaha settings from UI are used!""""
         }
     }
