@@ -8,7 +8,7 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.msBuild
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.nunit
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.schedule
 
-object elements_test_template : Template({
+object DslTest_elements_test_template : Template({
     uuid = "21ab50ef-b97a-4cfc-898e-be9f7e44a1ca"
     name = "Elements Test Template"
 

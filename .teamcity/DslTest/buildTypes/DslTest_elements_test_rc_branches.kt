@@ -5,8 +5,8 @@ import DslTest.vcsRoots.DslTest_RepoB
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.schedule
 
-object elements_test_rc_branches : BuildType({
-    templates(elements_test_template)
+object DslTest_elements_test_rc_branches : BuildType({
+    templates(DslTest_elements_test_template)
     id = AbsoluteId("elements_test_rc_branches")
     name = "release candidates: test (any SQL Server)"
     description = "Install and run tests on any SQL Server"
