@@ -1,6 +1,5 @@
-package test.buildTypes
+package DslTest.buildTypes
 
-import DslTest.buildTypes.DslTest_BuildA
 import DslTest.vcsRoots.DslTest_RepoA
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.schedule
@@ -8,7 +7,7 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.schedule
 object DslTest_elements_test_master_2014 : BuildType({
     templates(DslTest_elements_test_template)
     id = AbsoluteId("elements_test_master_2014")
-    name = "master 2014: test (SQL Server 2014)"
+    name = "master 2014: DslTest (SQL Server 2014)"
     description = "Install and run tests on SQL Server 2014"
 
     buildNumberPattern = "${DslTest_BuildA.depParamRefs.buildNumber}"

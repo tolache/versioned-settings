@@ -1,4 +1,4 @@
-package test.buildTypes
+package DslTest.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.commitStatusPublisher
@@ -29,7 +29,7 @@ object DslTest_elements_test_template : Template({
             targets = "Install"
         }
         nunit {
-            name = "Unit test"
+            name = "Unit DslTest"
             id = "RUNNER_33"
             nunitVersion = NUnitStep.NUnitVersion.NUnit_2_6_3
             platform = NUnitStep.Platform.x86

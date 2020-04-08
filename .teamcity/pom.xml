@@ -54,7 +54,7 @@
             </goals>
           </execution>
           <execution>
-            <id>test-compile</id>
+            <id>DslTest-compile</id>
             <phase>process-test-sources</phase>
             <goals>
               <goal>test-compile</goal>

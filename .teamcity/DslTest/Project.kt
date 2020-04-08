@@ -2,12 +2,11 @@ package DslTest
 
 import DslTest.buildTypes.*
 import DslTest.vcsRoots.*
-import jetbrains.buildServer.configs.kotlin.v2019_2.*
 import jetbrains.buildServer.configs.kotlin.v2019_2.Project
 import jetbrains.buildServer.configs.kotlin.v2019_2.projectFeatures.VersionedSettings
 import jetbrains.buildServer.configs.kotlin.v2019_2.projectFeatures.versionedSettings
-import test.buildTypes.DslTest_elements_test_master_2014
-import test.buildTypes.DslTest_elements_test_rc_branches
+import DslTest.buildTypes.DslTest_elements_test_master_2014
+import DslTest.buildTypes.DslTest_elements_test_rc_branches
 
 object Project : Project({
     uuid = "8bf25bd0-ac48-464e-8c39-593deb5dba51"
