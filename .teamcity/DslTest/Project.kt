@@ -17,6 +17,10 @@ object Project : Project({
 
     buildType(DslTest_BuildA)
 
+    params {
+        param("teamcity.ui.settings.readOnly", "false")
+    }
+
     features {
         versionedSettings {
             id = "PROJECT_EXT_16"
