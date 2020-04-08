@@ -24,7 +24,7 @@ object Project : Project({
     buildType(DslTest_elements_test_rc_branches)
 
     params {
-        param("teamcity.ui.settings.readOnly", "false")
+        param("teamcity.ui.settings.readOnly", "true")
     }
 
     features {
