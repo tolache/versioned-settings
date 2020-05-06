@@ -47,7 +47,10 @@ object Build : BuildType({
 
     steps {
         script {
-            scriptContent = "cat file*"
+            scriptContent = """
+                ls
+                cat file*
+            """.trimIndent()
         }
     }
 
