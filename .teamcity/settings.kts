@@ -31,34 +31,56 @@ project {
 
     vcsRoot(RepoD)
 
-    buildType(Build)
+    buildType(BuildA)
+    buildType(BuildB)
 
     params {
+        param("teamcity.vcsTrigger.runBuildInNewEmptyBranch", "true")
         param("teamcity.ui.settings.readOnly", "false")
     }
 }
 
-object Build : BuildType({
-    name = "Build"
+object BuildA : BuildType({
+    name = "Build A"
 
     vcs {
-        root(RepoD)
+        root(DslContext.settingsRoot)
     }
 
     steps {
         script {
             scriptContent = """
-                echo "Building branch: develop"
-                echo "Listing files."
-                ls
-                echo "Printing files content."
-                cat file*
+                echo "Printing file* content in branch: master"
+                cat src/file*
             """.trimIndent()
         }
     }
 
     triggers {
         vcs {
+            triggerRules = "+:src/**"
+        }
+    }
+})
+
+object BuildB : BuildType({
+    name = "Build B"
+
+    steps {
+        script {
+            scriptContent = "echo OK!"
+        }
+    }
+
+    triggers {
+        vcs {
+            branchFilter = ""
+            watchChangesInDependencies = true
+        }
+    }
+
+    dependencies {
+        snapshot(BuildA) {
         }
     }
 })
