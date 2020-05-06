@@ -59,7 +59,10 @@ object BuildA : BuildType({
 
     triggers {
         vcs {
-            triggerRules = "+:src/**"
+            triggerRules = """
+                -:**
+                +:src/**
+            """.trimIndent()
         }
     }
 })
