@@ -48,7 +48,9 @@ object Build : BuildType({
     steps {
         script {
             scriptContent = """
+                echo "listing files:"
                 ls
+                echo "printing files content:"
                 cat file*
             """.trimIndent()
         }
