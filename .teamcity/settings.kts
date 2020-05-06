@@ -50,6 +50,7 @@ object BuildA : BuildType({
     steps {
         script {
             scriptContent = """
+                echo "Config version 1"
                 echo "Printing file* content in branch: master"
                 cat src/file*
             """.trimIndent()
