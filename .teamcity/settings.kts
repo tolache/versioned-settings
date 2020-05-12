@@ -66,8 +66,6 @@ object BuildConfA : BuildType({
     triggers {
         vcs {
             triggerRules = "+:root=${DslContext.settingsRoot.id}:**"
-
-            branchFilter = "+:refs/tags/*"
             watchChangesInDependencies = true
         }
     }
