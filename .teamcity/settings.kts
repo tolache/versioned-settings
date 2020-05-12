@@ -164,7 +164,6 @@ object BuildConfC : BuildType({
 
     triggers {
         vcs {
-            quietPeriodMode = VcsTrigger.QuietPeriodMode.USE_DEFAULT
             triggerRules = """
                 +:root=${DslContext.settingsRoot.id}:**
             """.trimIndent()
