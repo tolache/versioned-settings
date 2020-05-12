@@ -157,7 +157,8 @@ object BuildConfC : BuildType({
         script {
             name = "Step 1"
             scriptContent = """
-                echo "Create Installer.exe" > Installer.exe
+                mkdir output
+                echo "Create Installer.exe" > output/Installer.exe
             """.trimIndent()
         }
     }
