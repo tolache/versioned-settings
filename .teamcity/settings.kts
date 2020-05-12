@@ -55,13 +55,11 @@ object BuildConfA : BuildType({
     }
 
     steps {
-        powerShell {
+        script {
             name = "Step 1"
-            scriptMode = script {
-                content = """                    
-                    Write-Host "Run"                    
-                """.trimIndent()
-            }
+            scriptContent = """                    
+                echo "Run"                    
+            """.trimIndent()
         }
     }
 
@@ -105,14 +103,11 @@ object BuildConfB : BuildType({
         showDependenciesChanges = true
     }
     steps {
-
-        powerShell {
+        script {
             name = "Step 1"
-            scriptMode = script {
-                content = """
+            scriptContent = """
                 Write-Host "Run"       
             """.trimIndent()
-            }
         }
     }
     triggers {
@@ -159,13 +154,11 @@ object BuildConfC : BuildType({
     }
 
     steps {
-        powerShell {
+        script {
             name = "Step 1"
-            scriptMode = script {
-                content = """
-                    Write-Host "Create Installer.exe"
-                """.trimIndent()
-            }
+            scriptContent = """
+                echo "Create Installer.exe"
+            """.trimIndent()
         }
     }
 
