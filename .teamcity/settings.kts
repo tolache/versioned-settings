@@ -31,60 +31,154 @@ project {
 
     vcsRoot(RepoD)
 
-    buildType(BuildA)
-    buildType(BuildB)
+    buildType(BuildConfA)
+    buildType(BuildConfB)
+    buildType(BuildConfC)
 
     params {
-        param("teamcity.vcsTrigger.runBuildInNewEmptyBranch", "true")
         param("teamcity.ui.settings.readOnly", "false")
     }
 }
 
-object BuildA : BuildType({
-    name = "Build A"
+object BuildConfA : BuildType({
+    name = "Build Configuration A"
+    description = "Build Configuration A"
+
+    params {
+        param("teamcity.vcsTrigger.runBuildInNewEmptyBranch", "true")
+    }
 
     vcs {
-        root(DslContext.settingsRoot)
+        cleanCheckout = true
+        excludeDefaultBranchChanges = true
+        showDependenciesChanges = true
     }
 
     steps {
-        script {
-            scriptContent = """
-                echo "Config version 3"
-                echo "Printing file* content in branch: master"
-                cat src/file*
-            """.trimIndent()
+        powerShell {
+            name = "Step 1"
+            scriptMode = script {
+                content = """                    
+                    Write-Host "Run"                    
+                """.trimIndent()
+            }
         }
     }
 
     triggers {
         vcs {
-            triggerRules = """
-                -:**
-                +:src/**
-            """.trimIndent()
-        }
-    }
-})
+            triggerRules = "+:root=${DslContext.settingsRoot.id}:**"
 
-object BuildB : BuildType({
-    name = "Build B"
-
-    steps {
-        script {
-            scriptContent = "echo OK!"
-        }
-    }
-
-    triggers {
-        vcs {
-            branchFilter = ""
+            branchFilter = "+:PROJECT_X*"
             watchChangesInDependencies = true
         }
     }
 
     dependencies {
-        snapshot(BuildA) {
+        dependency(AbsoluteId("BuildConfB")) {
+            snapshot {
+            }
+        }
+        artifacts(BuildConfCAbsoluteId("BuildConfC")) {
+            artifactRules = """
+                Installer*.exe
+            """.trimIndent()
+        }
+    }
+})
+
+object BuildConfB : BuildType({
+    name = "Build Configuration B"
+    description = "Build Configuration B"
+
+    artifactRules = """
+        %OUTPUT_DIR%/*.exe
+    """.trimIndent()
+
+    params {
+        text("OUTPUT_DIR", "exported_systems", display = ParameterDisplay.HIDDEN, readOnly = true, allowEmpty = true)
+        text("teamcity.buildQueue.allowMerging", "true", display = ParameterDisplay.HIDDEN, allowEmpty = true)
+    }
+
+    vcs {
+        checkoutMode = CheckoutMode.ON_SERVER
+        showDependenciesChanges = true
+    }
+    steps {
+
+        powerShell {
+            name = "Step 1"
+            scriptMode = script {
+                content = """
+                Write-Host "Run"       
+            """.trimIndent()
+            }
+        }
+    }
+    triggers {
+        vcs {
+            branchFilter = """
+                +:<default>
+            """.trimIndent()
+            watchChangesInDependencies = true
+        }
+    }
+
+    failureConditions {
+        executionTimeoutMin = 60
+    }
+
+    dependencies {
+        dependency(AbsoluteId("BuildConfC")) {
+            snapshot {
+            }
+
+            artifacts {
+                artifactRules = """
+                    Installer*.exe
+                """.trimIndent()
+            }
+        }
+    }
+})
+
+object BuildConfC : BuildType({
+    name = "Build Configuration C"
+    description = "Build Configuration C"
+
+    allowExternalStatus = true
+    artifactRules = """
+        output\Installer*.exe
+    """.trimIndent()
+
+    vcs {
+        root(DslContext.settingsRoot)
+
+        cleanCheckout = true
+        showDependenciesChanges = true
+    }
+
+    steps {
+        powerShell {
+            name = "Step 1"
+            scriptMode = script {
+                content = """
+                    Write-Host "Create Installer.exe"
+                """.trimIndent()
+            }
+        }
+    }
+
+    triggers {
+        vcs {
+            quietPeriodMode = VcsTrigger.QuietPeriodMode.USE_DEFAULT
+            triggerRules = """
+                +:root=${DslContext.settingsRoot.id}:**
+            """.trimIndent()
+
+            branchFilter = """
+                +:<default>
+            """.trimIndent()
         }
     }
 })
@@ -92,7 +186,7 @@ object BuildB : BuildType({
 object RepoD : GitVcsRoot({
     name = "repoD"
     url = "https://github.com/tolache/repoD"
-    branchSpec = "+:refs/heads/*"
+    branchSpec = "+:refs/tags/*"
     authMethod = password {
         userName = "tolache"
         password = "credentialsJSON:7f1be8ea-c51f-420d-8f5a-248d2e2090d0"
