@@ -73,11 +73,11 @@ object BuildConfA : BuildType({
     }
 
     dependencies {
-        dependency("BuildConfB") {
+        dependency(BuildConfB) {
             snapshot {
             }
         }
-        artifacts("BuildConfC") {
+        artifacts(BuildConfC) {
             artifactRules = """
                 Installer*.exe
             """.trimIndent()
@@ -124,7 +124,7 @@ object BuildConfB : BuildType({
     }
 
     dependencies {
-        dependency("BuildConfC") {
+        dependency(BuildConfC) {
             snapshot {
             }
 
