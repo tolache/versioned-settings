@@ -73,11 +73,11 @@ object BuildConfA : BuildType({
     }
 
     dependencies {
-        dependency(AbsoluteId("BuildConfB")) {
+        dependency("BuildConfB") {
             snapshot {
             }
         }
-        artifacts(BuildConfCAbsoluteId("BuildConfC")) {
+        artifacts("BuildConfC") {
             artifactRules = """
                 Installer*.exe
             """.trimIndent()
@@ -124,7 +124,7 @@ object BuildConfB : BuildType({
     }
 
     dependencies {
-        dependency(AbsoluteId("BuildConfC")) {
+        dependency("BuildConfC") {
             snapshot {
             }
 
@@ -157,7 +157,7 @@ object BuildConfC : BuildType({
         script {
             name = "Step 1"
             scriptContent = """
-                echo "Create Installer.exe"
+                echo "Create Installer.exe" > Installer.exe
             """.trimIndent()
         }
     }
