@@ -106,7 +106,7 @@ object BuildConfB : BuildType({
         script {
             name = "Step 1"
             scriptContent = """
-                Write-Host "Run"       
+                echo "Run"       
             """.trimIndent()
         }
     }
