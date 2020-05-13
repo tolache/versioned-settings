@@ -58,7 +58,7 @@ object BuildConfA : BuildType({
         script {
             name = "Step 1"
             scriptContent = """
-                echo "Configuration change 1"
+                echo "Configuration change 2"
                 echo "Run"                    
             """.trimIndent()
         }
