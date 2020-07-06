@@ -25,10 +25,11 @@ To debug in IntelliJ Idea, open the 'Maven Projects' tool window (View
 'Debug' option is available in the context menu for the task.
 */
 
-version = "2019.2"
+version = "2020.1"
 
 project {
 
+    vcsRoot(SettingsRootCopy)
     vcsRoot(RepoD)
 
     buildType(BuildConfA)
@@ -59,7 +60,7 @@ object BuildConfA : BuildType({
             name = "Step 1"
             scriptContent = """
                 echo "Configuration change 3"
-                echo "Run"                    
+                echo "Run"
             """.trimIndent()
         }
     }
@@ -67,19 +68,16 @@ object BuildConfA : BuildType({
     triggers {
         vcs {
             triggerRules = "+:root=${DslContext.settingsRoot.id}:**"
+
             watchChangesInDependencies = true
         }
     }
 
     dependencies {
-        dependency(BuildConfB) {
-            snapshot {
-            }
+        snapshot(BuildConfB) {
         }
         artifacts(BuildConfC) {
-            artifactRules = """
-                Installer*.exe
-            """.trimIndent()
+            artifactRules = "Installer*.exe"
         }
     }
 })
@@ -88,9 +86,7 @@ object BuildConfB : BuildType({
     name = "Build Configuration B"
     description = "Build Configuration B"
 
-    artifactRules = """
-        %OUTPUT_DIR%/*.exe
-    """.trimIndent()
+    artifactRules = "%OUTPUT_DIR%/*.exe"
 
     params {
         text("OUTPUT_DIR", "exported_systems", display = ParameterDisplay.HIDDEN, readOnly = true, allowEmpty = true)
@@ -101,19 +97,17 @@ object BuildConfB : BuildType({
         checkoutMode = CheckoutMode.ON_SERVER
         showDependenciesChanges = true
     }
+
     steps {
         script {
             name = "Step 1"
-            scriptContent = """
-                echo "Run"       
-            """.trimIndent()
+            scriptContent = """echo "Run"       """
         }
     }
+
     triggers {
         vcs {
-            branchFilter = """
-                +:<default>
-            """.trimIndent()
+            branchFilter = "+:<default>"
             watchChangesInDependencies = true
         }
     }
@@ -128,9 +122,7 @@ object BuildConfB : BuildType({
             }
 
             artifacts {
-                artifactRules = """
-                    Installer*.exe
-                """.trimIndent()
+                artifactRules = "Installer*.exe"
             }
         }
     }
@@ -141,9 +133,7 @@ object BuildConfC : BuildType({
     description = "Build Configuration C"
 
     allowExternalStatus = true
-    artifactRules = """
-        output\Installer*.exe
-    """.trimIndent()
+    artifactRules = """output\Installer*.exe"""
 
     vcs {
         root(DslContext.settingsRoot)
@@ -164,13 +154,9 @@ object BuildConfC : BuildType({
 
     triggers {
         vcs {
-            triggerRules = """
-                +:root=${DslContext.settingsRoot.id}:**
-            """.trimIndent()
+            triggerRules = "+:root=${DslContext.settingsRoot.id}:**"
 
-            branchFilter = """
-                +:<default>
-            """.trimIndent()
+            branchFilter = "+:<default>"
         }
     }
 })
@@ -181,6 +167,16 @@ object RepoD : GitVcsRoot({
     branchSpec = "+:refs/tags/*"
     authMethod = password {
         userName = "tolache"
-        password = "credentialsJSON:7f1be8ea-c51f-420d-8f5a-248d2e2090d0"
+        password = "credentialsJSON:17f19de6-3eb1-4a76-a724-40edd8f3a9e4"
+    }
+})
+
+object SettingsRootCopy : GitVcsRoot({
+    name = "settings-root-copy"
+    url = "git@github.com:tolache/versioned-settings.git"
+    branchSpec = "refs/heads/*"
+    authMethod = uploadedKey {
+        userName = "git"
+        uploadedKey = "github.pem"
     }
 })
