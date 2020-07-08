@@ -75,6 +75,8 @@ object BuildConfA : BuildType({
 
     dependencies {
         snapshot(BuildConfB) {
+            onDependencyFailure = FailureAction.IGNORE
+            onDependencyCancel = FailureAction.CANCEL
         }
         artifacts(BuildConfC) {
             artifactRules = "Installer*.exe"
