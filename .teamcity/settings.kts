@@ -169,7 +169,7 @@ object RepoD : GitVcsRoot({
     branchSpec = "+:refs/tags/*"
     authMethod = password {
         userName = "tolache"
-        password = "zxxf7b31829bbef0c0f775d03cbe80d301b"
+        password = "credentialsJSON:17f19de6-3eb1-4a76-a724-40edd8f3a9e4"
     }
 })
 
