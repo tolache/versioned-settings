@@ -2,6 +2,7 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.*
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.script
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.v2019_2.vcs.GitVcsRoot
+import kotlin.script.experimental.dependencies.DependenciesResolver
 
 /*
 The settings script is an entry point for defining a TeamCity
@@ -25,63 +26,140 @@ To debug in IntelliJ Idea, open the 'Maven Projects' tool window (View
 'Debug' option is available in the context menu for the task.
 */
 
-version = "2019.2"
+version = "2020.1"
 
 project {
 
+    vcsRoot(SettingsRootCopy)
     vcsRoot(RepoD)
 
-    buildType(BuildA)
-    buildType(BuildB)
+    buildType(BuildConfA)
+    buildType(BuildConfB)
+    buildType(BuildConfC)
 
     params {
-        param("teamcity.vcsTrigger.runBuildInNewEmptyBranch", "true")
         param("teamcity.ui.settings.readOnly", "false")
     }
 }
 
-object BuildA : BuildType({
-    name = "Build A"
+object BuildConfA : BuildType({
+    name = "Build Configuration A"
+    description = "Build Configuration A"
+
+    params {
+        param("teamcity.vcsTrigger.runBuildInNewEmptyBranch", "true")
+    }
 
     vcs {
-        root(DslContext.settingsRoot)
+        cleanCheckout = true
+        excludeDefaultBranchChanges = true
+        showDependenciesChanges = true
     }
 
     steps {
         script {
+            name = "Step 1"
             scriptContent = """
-                echo "Config version 1"
-                echo "Printing file* content in branch: develop"
-                cat src/file*
+                echo "Configuration change 3"
+                echo "Run"
             """.trimIndent()
         }
     }
 
     triggers {
         vcs {
-            triggerRules = "+:src/**"
-        }
-    }
-})
+            triggerRules = "+:root=${DslContext.settingsRoot.id}:**"
 
-object BuildB : BuildType({
-    name = "Build B"
-
-    steps {
-        script {
-            scriptContent = "echo OK!"
-        }
-    }
-
-    triggers {
-        vcs {
-            branchFilter = ""
             watchChangesInDependencies = true
         }
     }
 
     dependencies {
-        snapshot(BuildA) {
+        snapshot(BuildConfB) {
+            onDependencyFailure = FailureAction.IGNORE
+            onDependencyCancel = FailureAction.CANCEL
+        }
+        artifacts(BuildConfC) {
+            artifactRules = "Installer*.exe"
+        }
+    }
+})
+
+object BuildConfB : BuildType({
+    name = "Build Configuration B"
+    description = "Build Configuration B"
+
+    artifactRules = "%OUTPUT_DIR%/*.exe"
+
+    params {
+        text("OUTPUT_DIR", "exported_systems", display = ParameterDisplay.HIDDEN, readOnly = true, allowEmpty = true)
+        text("teamcity.buildQueue.allowMerging", "true", display = ParameterDisplay.HIDDEN, allowEmpty = true)
+    }
+
+    vcs {
+        checkoutMode = CheckoutMode.ON_SERVER
+        showDependenciesChanges = true
+    }
+
+    steps {
+        script {
+            name = "Step 1"
+            scriptContent = """echo "Run"       """
+        }
+    }
+
+    triggers {
+        vcs {
+            branchFilter = "+:<default>"
+            watchChangesInDependencies = true
+        }
+    }
+
+    failureConditions {
+        executionTimeoutMin = 60
+    }
+
+    dependencies {
+        dependency(BuildConfC) {
+            snapshot {
+            }
+
+            artifacts {
+                artifactRules = "Installer*.exe"
+            }
+        }
+    }
+})
+
+object BuildConfC : BuildType({
+    name = "Build Configuration C"
+    description = "Build Configuration C"
+
+    allowExternalStatus = true
+    artifactRules = """output\Installer*.exe"""
+
+    vcs {
+        root(DslContext.settingsRoot)
+
+        cleanCheckout = true
+        showDependenciesChanges = true
+    }
+
+    steps {
+        script {
+            name = "Step 1"
+            scriptContent = """
+                mkdir output
+                echo "Create Installer.exe" > output/Installer.exe
+            """.trimIndent()
+        }
+    }
+
+    triggers {
+        vcs {
+            triggerRules = "+:root=${DslContext.settingsRoot.id}:**"
+
+            branchFilter = "+:<default>"
         }
     }
 })
@@ -89,9 +167,19 @@ object BuildB : BuildType({
 object RepoD : GitVcsRoot({
     name = "repoD"
     url = "https://github.com/tolache/repoD"
-    branchSpec = "+:refs/heads/*"
+    branchSpec = "+:refs/tags/*"
     authMethod = password {
         userName = "tolache"
-        password = "credentialsJSON:7f1be8ea-c51f-420d-8f5a-248d2e2090d0"
+        password = "credentialsJSON:17f19de6-3eb1-4a76-a724-40edd8f3a9e4"
+    }
+})
+
+object SettingsRootCopy : GitVcsRoot({
+    name = "settings-root-copy"
+    url = "git@github.com:tolache/versioned-settings.git"
+    branchSpec = "refs/heads/*"
+    authMethod = uploadedKey {
+        userName = "git"
+        uploadedKey = "github.pem"
     }
 })
