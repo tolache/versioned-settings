@@ -138,6 +138,8 @@ object BuildConfC : BuildType({
     allowExternalStatus = true
     artifactRules = """output\Installer*.exe"""
 
+    maxRunningBuilds = 1
+
     vcs {
         root(DslContext.settingsRoot)
 
