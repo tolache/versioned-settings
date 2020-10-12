@@ -156,13 +156,13 @@ object BuildConfC : BuildType({
                 echo "Create Installer.exe" > output/Installer.exe
             """.trimIndent()
         }
-//        script {
-//            name = "Step 2"
-//            id = "RUNNER_112"
-//            scriptContent = """
-//                echo "This is the second step."
-//            """.trimIndent()
-//        }
+        script {
+            name = "Step 2"
+            id = "RUNNER_112"
+            scriptContent = """
+                echo "This is the second step."
+            """.trimIndent()
+        }
         script {
             name = "Step 3"
             id = "RUNNER_113"
