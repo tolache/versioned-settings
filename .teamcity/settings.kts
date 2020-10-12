@@ -150,22 +150,19 @@ object BuildConfC : BuildType({
     steps {
         script {
             name = "Step 1"
-            id = "RUNNER_111"
             scriptContent = """
                 mkdir output
                 echo "Create Installer.exe" > output/Installer.exe
             """.trimIndent()
         }
-        script {
-            name = "Step 2"
-            id = "RUNNER_112"
-            scriptContent = """
-                echo "This is the second step."
-            """.trimIndent()
-        }
+//        script {
+//            name = "Step 2"
+//            scriptContent = """
+//                echo "This is the second step."
+//            """.trimIndent()
+//        }
         script {
             name = "Step 3"
-            id = "RUNNER_113"
             scriptContent = """
                 echo "This is the thrid step."
             """.trimIndent()
