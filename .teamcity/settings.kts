@@ -136,7 +136,6 @@ object BuildConfC : BuildType({
 
     allowExternalStatus = true
     artifactRules = """output\Installer*.exe"""
-    buildNumberPattern = "builddd-%build.counter%"
     maxRunningBuilds = 1
 
     vcs {
