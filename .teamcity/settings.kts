@@ -2,7 +2,6 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.*
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.script
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.v2019_2.vcs.GitVcsRoot
-import kotlin.script.experimental.dependencies.DependenciesResolver
 
 /*
 The settings script is an entry point for defining a TeamCity
@@ -137,7 +136,7 @@ object BuildConfC : BuildType({
 
     allowExternalStatus = true
     artifactRules = """output\Installer*.exe"""
-
+    buildNumberPattern = "builddd-%build.counter%"
     maxRunningBuilds = 1
 
     vcs {
@@ -157,15 +156,11 @@ object BuildConfC : BuildType({
         }
         script {
             name = "Step 2"
-            scriptContent = """
-                echo "This is the second step."
-            """.trimIndent()
+            scriptContent = """echo "This is the second step.""""
         }
         script {
             name = "Step 3"
-            scriptContent = """
-                echo "This is the thrid step."
-            """.trimIndent()
+            scriptContent = """echo "This is the thrid step.""""
         }
     }
 
