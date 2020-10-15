@@ -37,7 +37,7 @@ project {
     buildType(BuildConfC)
 
     params {
-        param("teamcity.ui.settings.readOnly", "true")
+        param("teamcity.ui.settings.readOnly", "false")
     }
 }
 
@@ -46,7 +46,7 @@ object BuildConfA : BuildType({
     description = "Build Configuration A"
 
     params {
-        param("teamcity.vcsTrigger.runBuildInNewEmptyBranch", "false")
+        param("teamcity.vcsTrigger.runBuildInNewEmptyBranch", "true")
     }
 
     vcs {
