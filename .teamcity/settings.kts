@@ -139,6 +139,8 @@ object BuildConfC : BuildType({
     maxRunningBuilds = 1
 
     vcs {
+        root(repoD)
+
         cleanCheckout = true
         showDependenciesChanges = true
     }
