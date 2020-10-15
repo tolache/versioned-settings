@@ -46,7 +46,7 @@ object BuildConfA : BuildType({
     description = "Build Configuration A"
 
     params {
-        param("teamcity.vcsTrigger.runBuildInNewEmptyBranch", "true")
+        param("teamcity.vcsTrigger.runBuildInNewEmptyBranch", "false")
     }
 
     vcs {
