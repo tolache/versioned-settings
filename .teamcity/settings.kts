@@ -37,7 +37,7 @@ project {
     buildType(BuildConfC)
 
     params {
-        param("teamcity.ui.settings.readOnly", "true")
+        param("teamcity.ui.settings.readOnly", "false")
     }
 }
 
@@ -139,8 +139,6 @@ object BuildConfC : BuildType({
     maxRunningBuilds = 1
 
     vcs {
-        root(DslContext.settingsRoot)
-
         cleanCheckout = true
         showDependenciesChanges = true
     }
