@@ -139,7 +139,7 @@ object BuildConfC : BuildType({
     maxRunningBuilds = 1
 
     vcs {
-        root(RepoD, "${DslContext.getParameter("masterCheckoutRules")}")
+        root(RepoD, "${DslContext.getParameter("developCheckoutRules")}")
 
         cleanCheckout = true
         showDependenciesChanges = true
