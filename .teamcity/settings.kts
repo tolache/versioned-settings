@@ -139,7 +139,7 @@ object BuildConfC : BuildType({
     maxRunningBuilds = 1
 
     vcs {
-        root(repoD)
+        root(RepoD)
 
         cleanCheckout = true
         showDependenciesChanges = true
