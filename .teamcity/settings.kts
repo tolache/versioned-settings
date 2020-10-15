@@ -175,7 +175,10 @@ object BuildConfC : BuildType({
 object RepoD : GitVcsRoot({
     name = "repoD"
     url = "https://github.com/tolache/repoD"
-    branchSpec = "+:refs/tags/*"
+    branchSpec = """
+        +:refs/tags/*
+        +:refs/heads/*
+    """.trimIndent()
     authMethod = password {
         userName = "tolache"
         password = "credentialsJSON:17f19de6-3eb1-4a76-a724-40edd8f3a9e4"
