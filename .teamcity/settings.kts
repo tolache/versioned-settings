@@ -161,6 +161,10 @@ object BuildConfC : BuildType({
             name = "Step 3"
             scriptContent = """echo "This is the thrid step.""""
         }
+        script {
+            name = "Step 4"
+            scriptContent = """echo "This is the fourth step.""""
+        }
     }
 
     triggers {
