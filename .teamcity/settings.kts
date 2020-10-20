@@ -198,3 +198,15 @@ object SettingsRootCopy : GitVcsRoot({
         uploadedKey = "github.pem"
     }
 })
+
+object DslCreatedVcsRoot : GitVcsRoot({
+    name = "dsl-created-vcs-root"
+    url = "git@github.com:tolache/repoA.git"
+    branchSpec = """
+        +:refs/heads/*
+    """.trimIndent()
+    authMethod = uploadedKey {
+        userName = "git"
+        uploadedKey = "github.pem"
+    }
+})
