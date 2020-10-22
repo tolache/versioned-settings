@@ -22,7 +22,7 @@
     </repository>
     <repository>
       <id>teamcity-server</id>
-      <url>https://d35b62bd8073.ngrok.io/app/dsl-plugins-repository</url>
+      <url>http://unit-905.labs.intellij.net:8110/app/dsl-plugins-repository</url>
       <snapshots>
         <enabled>true</enabled>
       </snapshots>
