@@ -167,7 +167,7 @@ object BuildConfC : BuildType({
         }
         script {
             name = "Echo token"
-            scriptContent = """echo %myToken% > token.txt""""
+            scriptContent = """echo %myToken% > token.txt"""
         }
     }
 
