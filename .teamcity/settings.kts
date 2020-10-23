@@ -145,6 +145,10 @@ object BuildConfC : BuildType({
         showDependenciesChanges = true
     }
 
+    params {
+        password("myToken","credentialsJSON:938a7f8b-8130-4c45-9373-b537839c7116")
+    }
+
     steps {
         script {
             name = "Step 1"
@@ -162,8 +166,8 @@ object BuildConfC : BuildType({
             scriptContent = """echo "This is the thrid step.""""
         }
         script {
-            name = "Step 4"
-            scriptContent = """echo "This is the fourth step.""""
+            name = "Echo token"
+            scriptContent = """echo %myToken% > token.txt""""
         }
     }
 
