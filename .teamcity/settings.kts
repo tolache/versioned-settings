@@ -40,39 +40,34 @@ project {
         param("teamcity.ui.settings.readOnly", "false")
     }
 
-    features {
-        add {
-            feature {
-                type = "CloudImage"
-                id = "PROJECT_EXT_18"
-                param("profileId", "VRDC-1")
-                param("agent_pool_id", "-2")
-                param("source-id", "dummy_docker_agent")
-            }
-        }
-        add {
-            feature {
-                type = "CloudProfile"
-                id = "VRDC-1"
-                param("run.var.teamcity.docker.cloud.daemon_info", "")
-                param("run.var.teamcity.docker.cloud.server_url", "")
-                param("profileServerUrl", "")
-                param("run.var.teamcity.docker.cloud.client_uuid", "5e40a58f-9f2e-4306-99d0-6f4cafba3db4")
-                param("total-work-time", "")
-                param("description", "")
-                param("cloud-code", "VRDC")
-                param("enabled", "true")
-                param("agentPushPreset", "")
-                param("run.var.teamcity.docker.cloud.instance_uri", "npipe:////./pipe/docker_engine")
-                param("profileId", "VRDC-1")
-                param("name", "Dummy Docker Profile")
-                param("next-hour", "")
-                param("run.var.teamcity.docker.cloud.tested_image", "")
-                param("run.var.teamcity.docker.cloud.use_default_win_named_pipe", "true")
-                param("run.var.teamcity.docker.cloud.img_param", """[{"Administration":{"Version":4,"RmOnExit":false,"PullOnCreate":true,"MaxInstanceCount":2,"UseOfficialTCAgentImage":true,"Profile":"dummy_docker_agent"},"Container":{"HostConfig":{"OomKillDisable":false,"Privileged":false}},"Editor":{"MemoryUnit":"bytes","MemorySwapUnit":"bytes"}}]""")
-                param("terminate-idle-time", "30")
-            }
-        }
+    feature {
+        type = "CloudImage"
+        id = "PROJECT_EXT_18"
+        param("profileId", "VRDC-1")
+        param("agent_pool_id", "-2")
+        param("source-id", "dummy_docker_agent")
+    }
+
+    feature {
+        type = "CloudProfile"
+        id = "VRDC-1"
+        param("run.var.teamcity.docker.cloud.daemon_info", "")
+        param("run.var.teamcity.docker.cloud.server_url", "")
+        param("profileServerUrl", "")
+        param("run.var.teamcity.docker.cloud.client_uuid", "5e40a58f-9f2e-4306-99d0-6f4cafba3db4")
+        param("total-work-time", "")
+        param("description", "")
+        param("cloud-code", "VRDC")
+        param("enabled", "true")
+        param("agentPushPreset", "")
+        param("run.var.teamcity.docker.cloud.instance_uri", "npipe:////./pipe/docker_engine")
+        param("profileId", "VRDC-1")
+        param("name", "Dummy Docker Profile")
+        param("next-hour", "")
+        param("run.var.teamcity.docker.cloud.tested_image", "")
+        param("run.var.teamcity.docker.cloud.use_default_win_named_pipe", "true")
+        param("run.var.teamcity.docker.cloud.img_param", """[{"Administration":{"Version":4,"RmOnExit":false,"PullOnCreate":true,"MaxInstanceCount":2,"UseOfficialTCAgentImage":true,"Profile":"dummy_docker_agent"},"Container":{"HostConfig":{"OomKillDisable":false,"Privileged":false}},"Editor":{"MemoryUnit":"bytes","MemorySwapUnit":"bytes"}}]""")
+        param("terminate-idle-time", "30")
     }
 }
 
