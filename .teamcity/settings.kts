@@ -40,6 +40,36 @@ project {
         param("teamcity.ui.settings.readOnly", "false")
     }
 
+    features {
+        feature {
+            id = "PROJECT_EXT_18"
+            type = "CloudImage"
+            param("profileId", "VRDC-1")
+            param("agent_pool_id", "-2")
+            param("source-id", "dummy_docker_agent")
+        }
+        feature {
+            id = "VRDC-1"
+            type = "CloudProfile"
+            param("run.var.teamcity.docker.cloud.daemon_info", "")
+            param("run.var.teamcity.docker.cloud.server_url", "")
+            param("profileServerUrl", "")
+            param("run.var.teamcity.docker.cloud.client_uuid", "5e40a58f-9f2e-4306-99d0-6f4cafba3db4")
+            param("total-work-time", "")
+            param("description", "")
+            param("cloud-code", "VRDC")
+            param("enabled", "true")
+            param("agentPushPreset", "")
+            param("run.var.teamcity.docker.cloud.instance_uri", "npipe:////./pipe/docker_engine")
+            param("profileId", "VRDC-1")
+            param("name", "Dummy Docker Profile")
+            param("next-hour", "")
+            param("run.var.teamcity.docker.cloud.tested_image", "")
+            param("run.var.teamcity.docker.cloud.use_default_win_named_pipe", "true")
+            param("run.var.teamcity.docker.cloud.img_param", """[{"Administration":{"Version":4,"RmOnExit":false,"PullOnCreate":true,"MaxInstanceCount":2,"UseOfficialTCAgentImage":true,"Profile":"dummy_docker_agent"},"Container":{"HostConfig":{"OomKillDisable":false,"Privileged":false}},"Editor":{"MemoryUnit":"bytes","MemorySwapUnit":"bytes"}}]""")
+            param("terminate-idle-time", "30")
+        }
+    }
 }
 
 object BuildConfA : BuildType({
@@ -139,15 +169,15 @@ object BuildConfC : BuildType({
     artifactRules = """output\Installer*.exe"""
     maxRunningBuilds = 1
 
+    params {
+        password("myToken", "credentialsJSON:938a7f8b-8130-4c45-9373-b537839c7116")
+    }
+
     vcs {
-        root(RepoD, "${DslContext.getParameter("masterCheckoutRules")}")
+        root(RepoD, "-:fileE.txt")
 
         cleanCheckout = true
         showDependenciesChanges = true
-    }
-
-    params {
-        password("myToken","credentialsJSON:938a7f8b-8130-4c45-9373-b537839c7116")
     }
 
     steps {
@@ -168,7 +198,7 @@ object BuildConfC : BuildType({
         }
         script {
             name = "Echo token"
-            scriptContent = """echo %myToken% > token.txt"""
+            scriptContent = "echo %myToken% > token.txt"
         }
     }
 
@@ -198,18 +228,6 @@ object SettingsRootCopy : GitVcsRoot({
     name = "settings-root-copy"
     url = "git@github.com:tolache/versioned-settings.git"
     branchSpec = "refs/heads/*"
-    authMethod = uploadedKey {
-        userName = "git"
-        uploadedKey = "github.pem"
-    }
-})
-
-object DslCreatedVcsRoot : GitVcsRoot({
-    name = "dsl-created-vcs-root"
-    url = "git@github.com:tolache/repoA.git"
-    branchSpec = """
-        +:refs/heads/*
-    """.trimIndent()
     authMethod = uploadedKey {
         userName = "git"
         uploadedKey = "github.pem"
