@@ -53,7 +53,7 @@ project {
             type = "CloudProfile"
             param("run.var.teamcity.docker.cloud.daemon_info", "")
             param("run.var.teamcity.docker.cloud.server_url", "")
-            param("profileServerUrl", "")
+            param("profileServerUrl", "http://172.30.73.182:8110/")
             param("run.var.teamcity.docker.cloud.client_uuid", "5e40a58f-9f2e-4306-99d0-6f4cafba3db4")
             param("system.cloud.profile_id", "VRDC-1")
             param("total-work-time", "")
