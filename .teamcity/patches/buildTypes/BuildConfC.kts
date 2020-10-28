@@ -10,6 +10,12 @@ To apply the patch, change the buildType with id = 'BuildConfC'
 accordingly, and delete the patch script.
 */
 changeBuildType(RelativeId("BuildConfC")) {
+    params {
+        add {
+            param("confParamFromUi", "myValue")
+        }
+    }
+
     expectSteps {
         script {
             name = "Step 1"
