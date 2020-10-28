@@ -75,7 +75,7 @@ project {
             param("run.var.teamcity.docker.cloud.tested_image", "")
             param("run.var.teamcity.docker.cloud.use_default_win_named_pipe", "true")
             param("run.var.teamcity.docker.cloud.img_param", """[{"Administration":{"Version":4,"RmOnExit":false,"PullOnCreate":true,"MaxInstanceCount":2,"UseOfficialTCAgentImage":true,"Profile":"dummy_docker_agent"},"Container":{"HostConfig":{"OomKillDisable":false,"Privileged":false}},"Editor":{"MemoryUnit":"bytes","MemorySwapUnit":"bytes"}},{"Administration":{"Version":4,"RmOnExit":false,"PullOnCreate":true,"MaxInstanceCount":2,"UseOfficialTCAgentImage":false,"Profile":"custom_agent"},"Container":{"Image":"tolache/teamcity-custom-agent","HostConfig":{"OomKillDisable":false,"Privileged":false}},"Editor":{"MemoryUnit":"bytes","MemorySwapUnit":"bytes"}}]""")
-            param("terminate-idle-time", "30")
+            param("terminate-idle-time", "10")
         }
     }
 }
@@ -196,17 +196,9 @@ object BuildConfC : BuildType({
                 echo "Create Installer.exe" > output/Installer.exe
             """.trimIndent()
         }
-        script {
-            name = "Step 2"
-            scriptContent = """echo "This is the second step.""""
-        }
-        script {
+                script {
             name = "Echo token"
             scriptContent = "echo %myToken% > token.txt"
-        }
-        script {
-            name = "Step from UI"
-            scriptContent = """echo "this step is added via web UI""""
         }
     }
 
