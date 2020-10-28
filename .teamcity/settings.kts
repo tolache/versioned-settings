@@ -204,6 +204,10 @@ object BuildConfC : BuildType({
             name = "Echo token"
             scriptContent = "echo %myToken% > token.txt"
         }
+        script {
+            name = "Step from UI"
+            scriptContent = """echo "this step is added via web UI""""
+        }
     }
 
     triggers {
