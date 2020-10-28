@@ -2,6 +2,7 @@ package patches.projects
 
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
 import jetbrains.buildServer.configs.kotlin.v2019_2.Project
+import jetbrains.buildServer.configs.kotlin.v2019_2.ProjectFeature
 import jetbrains.buildServer.configs.kotlin.v2019_2.ui.*
 
 /*
@@ -13,6 +14,45 @@ changeProject(DslContext.projectId) {
     params {
         add {
             param("projParamFromUi", "myValue")
+        }
+    }
+
+    features {
+        remove {
+            feature {
+                type = "CloudImage"
+                id = "PROJECT_EXT_20"
+                param("agent_pool_id", "-2")
+                param("profileId", "VRDC-1")
+                param("source-id", "custom_agent")
+            }
+        }
+        val feature1 = find<ProjectFeature> {
+            feature {
+                type = "CloudProfile"
+                id = "VRDC-1"
+                param("agentPushPreset", "")
+                param("cloud-code", "VRDC")
+                param("description", "")
+                param("enabled", "true")
+                param("name", "Dummy Docker Profile")
+                param("next-hour", "")
+                param("profileId", "VRDC-1")
+                param("profileServerUrl", "")
+                param("run.var.teamcity.docker.cloud.client_uuid", "5e40a58f-9f2e-4306-99d0-6f4cafba3db4")
+                param("run.var.teamcity.docker.cloud.daemon_info", "")
+                param("run.var.teamcity.docker.cloud.img_param", """[{"Administration":{"Version":4,"RmOnExit":false,"PullOnCreate":true,"MaxInstanceCount":2,"UseOfficialTCAgentImage":true,"Profile":"dummy_docker_agent"},"Container":{"HostConfig":{"OomKillDisable":false,"Privileged":false}},"Editor":{"MemoryUnit":"bytes","MemorySwapUnit":"bytes"}},{"Administration":{"Version":4,"RmOnExit":false,"PullOnCreate":true,"MaxInstanceCount":2,"UseOfficialTCAgentImage":false,"Profile":"custom_agent"},"Container":{"Image":"tolache/teamcity-custom-agent","HostConfig":{"OomKillDisable":false,"Privileged":false}},"Editor":{"MemoryUnit":"bytes","MemorySwapUnit":"bytes"}}]""")
+                param("run.var.teamcity.docker.cloud.instance_uri", "npipe:////./pipe/docker_engine")
+                param("run.var.teamcity.docker.cloud.server_url", "")
+                param("run.var.teamcity.docker.cloud.tested_image", "")
+                param("run.var.teamcity.docker.cloud.use_default_win_named_pipe", "true")
+                param("system.cloud.profile_id", "VRDC-1")
+                param("terminate-idle-time", "10")
+                param("total-work-time", "")
+            }
+        }
+        feature1.apply {
+            param("run.var.teamcity.docker.cloud.img_param", """[{"Administration":{"Version":4,"RmOnExit":false,"PullOnCreate":true,"MaxInstanceCount":5,"UseOfficialTCAgentImage":true,"Profile":"dummy_docker_agent"},"Container":{"HostConfig":{"OomKillDisable":false,"Privileged":false}},"Editor":{"MemoryUnit":"bytes","MemorySwapUnit":"bytes"}}]""")
         }
     }
 }
