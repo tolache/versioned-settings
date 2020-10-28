@@ -49,13 +49,6 @@ project {
             param("source-id", "dummy_docker_agent")
         }
         feature {
-            id = "PROJECT_EXT_20"
-            type = "CloudImage"
-            param("profileId", "VRDC-1")
-            param("agent_pool_id", "-2")
-            param("source-id", "custom_agent")
-        }
-        feature {
             id = "VRDC-1"
             type = "CloudProfile"
             param("run.var.teamcity.docker.cloud.daemon_info", "")
@@ -74,7 +67,29 @@ project {
             param("next-hour", "")
             param("run.var.teamcity.docker.cloud.tested_image", "")
             param("run.var.teamcity.docker.cloud.use_default_win_named_pipe", "true")
-            param("run.var.teamcity.docker.cloud.img_param", """[{"Administration":{"Version":4,"RmOnExit":false,"PullOnCreate":true,"MaxInstanceCount":2,"UseOfficialTCAgentImage":true,"Profile":"dummy_docker_agent"},"Container":{"HostConfig":{"OomKillDisable":false,"Privileged":false}},"Editor":{"MemoryUnit":"bytes","MemorySwapUnit":"bytes"}},{"Administration":{"Version":4,"RmOnExit":false,"PullOnCreate":true,"MaxInstanceCount":2,"UseOfficialTCAgentImage":false,"Profile":"custom_agent"},"Container":{"Image":"tolache/teamcity-custom-agent","HostConfig":{"OomKillDisable":false,"Privileged":false}},"Editor":{"MemoryUnit":"bytes","MemorySwapUnit":"bytes"}}]""")
+            param("run.var.teamcity.docker.cloud.img_param", """
+                [{
+                        "Administration": {
+                            "Version": 4,
+                            "RmOnExit": false,
+                            "PullOnCreate": true,
+                            "MaxInstanceCount": 2,
+                            "UseOfficialTCAgentImage": true,
+                            "Profile": "dummy_docker_agent"
+                        },
+                        "Container": {
+                            "HostConfig": {
+                                "OomKillDisable": false,
+                                "Privileged": false
+                            }
+                        },
+                        "Editor": {
+                            "MemoryUnit": "bytes",
+                            "MemorySwapUnit": "bytes"
+                        }
+                    }
+                ]
+            """.trimIndent())
             param("terminate-idle-time", "10")
         }
     }
