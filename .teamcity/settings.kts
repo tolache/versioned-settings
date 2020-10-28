@@ -73,7 +73,7 @@ project {
                             "Version": 4,
                             "RmOnExit": false,
                             "PullOnCreate": true,
-                            "MaxInstanceCount": 2,
+                            "MaxInstanceCount": 5,
                             "UseOfficialTCAgentImage": true,
                             "Profile": "dummy_docker_agent"
                         },
