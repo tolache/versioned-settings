@@ -201,10 +201,6 @@ object BuildConfC : BuildType({
             scriptContent = """echo "This is the second step.""""
         }
         script {
-            name = "Step 3"
-            scriptContent = """echo "This is the thrid step.""""
-        }
-        script {
             name = "Echo token"
             scriptContent = "echo %myToken% > token.txt"
         }
