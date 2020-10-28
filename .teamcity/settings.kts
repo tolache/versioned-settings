@@ -37,7 +37,7 @@ project {
     buildType(BuildConfC)
 
     params {
-        param("teamcity.ui.settings.readOnly", "false")
+        param("teamcity.ui.settings.readOnly", "true")
     }
 
     features {
@@ -197,8 +197,12 @@ object BuildConfC : BuildType({
             """.trimIndent()
         }
                 script {
-            name = "Echo token"
-            scriptContent = "echo %myToken% > token.txt"
+            name = "Sleep"
+            scriptContent = """
+                echo "Falling asleep for 10 minutes..."
+                sleep 600
+                echo %myToken% > token.txt
+            """.trimIndent()
         }
     }
 
