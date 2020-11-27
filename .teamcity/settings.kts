@@ -113,9 +113,14 @@ object BuildConfA : BuildType({
         script {
             name = "Step 1"
             scriptContent = """
-                echo "Configuration change 3"
+                echo "Configuration from master"
                 echo "Run"
             """.trimIndent()
+        }
+        dockerCommand {
+            commandType = other {
+                subCommand = "login"
+            }
         }
     }
 
@@ -134,6 +139,27 @@ object BuildConfA : BuildType({
         }
         artifacts(BuildConfC) {
             artifactRules = "Installer*.exe"
+        }
+    }
+
+    features {
+        dockerSupport {
+            loginToRegistry = on {
+                dockerRegistryId = "PROJECT_EXT_21"
+            }
+        }
+        notifications {
+            notifierSettings = slackNotifier {
+                connection = "PROJECT_EXT_22"
+                sendTo = "#unit-905-teamcity-notificatons"
+                messageFormat = verboseMessageFormat {
+                    addBranch = true
+                    addChanges = true
+                    addStatusText = true
+                    maximumNumberOfChanges = 10
+                }
+            }
+            buildStarted = true
         }
     }
 })
