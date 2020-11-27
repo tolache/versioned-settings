@@ -243,8 +243,8 @@ object BuildConfC : BuildType({
                 script {
             name = "Sleep"
             scriptContent = """
-                echo "Falling asleep for 10 minutes..."
-                sleep 600
+                echo "Falling asleep for 3 seconds..."
+                sleep 3
                 echo %myToken% > token.txt
             """.trimIndent()
         }
