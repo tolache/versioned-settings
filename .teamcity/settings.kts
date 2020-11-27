@@ -40,7 +40,7 @@ project {
     buildType(BuildConfC)
 
     params {
-        param("teamcity.ui.settings.readOnly", "false")
+        param("teamcity.ui.settings.readOnly", "true")
     }
 
     features {
@@ -148,7 +148,7 @@ object BuildConfA : BuildType({
     features {
         dockerSupport {
             loginToRegistry = on {
-                dockerRegistryId = "PROJECT_EXT_21"
+                dockerRegistryId = "PROJECT_EXT_20"
             }
         }
         notifications {
