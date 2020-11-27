@@ -146,11 +146,6 @@ object BuildConfA : BuildType({
     }
 
     features {
-        dockerSupport {
-            loginToRegistry = on {
-                dockerRegistryId = "PROJECT_EXT_20"
-            }
-        }
         notifications {
             notifierSettings = slackNotifier {
                 connection = "PROJECT_EXT_22"
