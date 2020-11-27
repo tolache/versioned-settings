@@ -37,7 +37,61 @@ project {
     buildType(BuildConfC)
 
     params {
-        param("teamcity.ui.settings.readOnly", "false")
+        param("teamcity.ui.settings.readOnly", "true")
+    }
+
+    features {
+        feature {
+            id = "PROJECT_EXT_18"
+            type = "CloudImage"
+            param("profileId", "VRDC-1")
+            param("agent_pool_id", "-2")
+            param("source-id", "dummy_docker_agent")
+        }
+        feature {
+            id = "VRDC-1"
+            type = "CloudProfile"
+            param("run.var.teamcity.docker.cloud.daemon_info", "")
+            param("run.var.teamcity.docker.cloud.server_url", "")
+            param("profileServerUrl", "http://172.30.73.182:8110/")
+            param("run.var.teamcity.docker.cloud.client_uuid", "5e40a58f-9f2e-4306-99d0-6f4cafba3db4")
+            param("system.cloud.profile_id", "VRDC-1")
+            param("total-work-time", "")
+            param("description", "")
+            param("cloud-code", "VRDC")
+            param("enabled", "true")
+            param("agentPushPreset", "")
+            param("run.var.teamcity.docker.cloud.instance_uri", "npipe:////./pipe/docker_engine")
+            param("profileId", "VRDC-1")
+            param("name", "Dummy Docker Profile")
+            param("next-hour", "")
+            param("run.var.teamcity.docker.cloud.tested_image", "")
+            param("run.var.teamcity.docker.cloud.use_default_win_named_pipe", "true")
+            param("run.var.teamcity.docker.cloud.img_param", """
+                [{
+                        "Administration": {
+                            "Version": 4,
+                            "RmOnExit": false,
+                            "PullOnCreate": true,
+                            "MaxInstanceCount": 5,
+                            "UseOfficialTCAgentImage": true,
+                            "Profile": "dummy_docker_agent"
+                        },
+                        "Container": {
+                            "HostConfig": {
+                                "OomKillDisable": false,
+                                "Privileged": false
+                            }
+                        },
+                        "Editor": {
+                            "MemoryUnit": "bytes",
+                            "MemorySwapUnit": "bytes"
+                        }
+                    }
+                ]
+            """.trimIndent())
+            param("terminate-idle-time", "10")
+        }
     }
 }
 
@@ -59,9 +113,14 @@ object BuildConfA : BuildType({
         script {
             name = "Step 1"
             scriptContent = """
-                echo "Configuration change 3"
+                echo "Configuration from develop"
                 echo "Run"
             """.trimIndent()
+        }
+        dockerCommand {
+            commandType = other {
+                subCommand = "login"
+            }
         }
     }
 
@@ -80,6 +139,27 @@ object BuildConfA : BuildType({
         }
         artifacts(BuildConfC) {
             artifactRules = "Installer*.exe"
+        }
+    }
+
+    features {
+        dockerSupport {
+            loginToRegistry = on {
+                dockerRegistryId = "PROJECT_EXT_21"
+            }
+        }
+        notifications {
+            notifierSettings = slackNotifier {
+                connection = "PROJECT_EXT_22"
+                sendTo = "#unit-905-teamcity-notificatons"
+                messageFormat = verboseMessageFormat {
+                    addBranch = true
+                    addChanges = true
+                    addStatusText = true
+                    maximumNumberOfChanges = 10
+                }
+            }
+            buildStarted = true
         }
     }
 })
@@ -138,8 +218,12 @@ object BuildConfC : BuildType({
     artifactRules = """output\Installer*.exe"""
     maxRunningBuilds = 1
 
+    params {
+        password("myToken", "credentialsJSON:938a7f8b-8130-4c45-9373-b537839c7116")
+    }
+
     vcs {
-        root(RepoD, "${DslContext.getParameter("developCheckoutRules")}")
+        root(RepoD, "-:fileE.txt")
 
         cleanCheckout = true
         showDependenciesChanges = true
@@ -153,13 +237,13 @@ object BuildConfC : BuildType({
                 echo "Create Installer.exe" > output/Installer.exe
             """.trimIndent()
         }
-        script {
-            name = "Step 2"
-            scriptContent = """echo "This is the second step.""""
-        }
-        script {
-            name = "Step 3"
-            scriptContent = """echo "This is the thrid step.""""
+                script {
+            name = "Sleep"
+            scriptContent = """
+                echo "Falling asleep for 10 minutes..."
+                sleep 600
+                echo %myToken% > token.txt
+            """.trimIndent()
         }
     }
 
@@ -175,7 +259,10 @@ object BuildConfC : BuildType({
 object RepoD : GitVcsRoot({
     name = "repoD"
     url = "https://github.com/tolache/repoD"
-    branchSpec = "+:refs/tags/*"
+    branchSpec = """
+        +:refs/tags/*
+        +:refs/heads/*
+    """.trimIndent()
     authMethod = password {
         userName = "tolache"
         password = "credentialsJSON:17f19de6-3eb1-4a76-a724-40edd8f3a9e4"
