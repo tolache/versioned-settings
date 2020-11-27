@@ -113,7 +113,7 @@ object BuildConfA : BuildType({
         script {
             name = "Step 1"
             scriptContent = """
-                echo "Configuration from master"
+                echo "Configuration from develop"
                 echo "Run"
             """.trimIndent()
         }
