@@ -114,10 +114,8 @@ object BuildConfA : BuildType({
 
     steps {
         script {
-            name = "Step 1"
             scriptContent = """
-                echo "Configuration from master"
-                echo "Run"
+            echo "Settings from: main"
             """.trimIndent()
         }
         dockerCommand {
