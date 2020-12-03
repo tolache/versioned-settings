@@ -1,10 +1,11 @@
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.notifications
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.dockerCommand
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.script
+import jetbrains.buildServer.configs.kotlin.v2019_2.failureConditions.BuildFailureOnMetric
+import jetbrains.buildServer.configs.kotlin.v2019_2.failureConditions.failOnMetricChange
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.v2019_2.vcs.GitVcsRoot
-import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.notifications
-import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.dockerSupport
-import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.dockerCommand
 
 /*
 The settings script is an entry point for defining a TeamCity
@@ -38,6 +39,8 @@ project {
     buildType(BuildConfA)
     buildType(BuildConfB)
     buildType(BuildConfC)
+
+    template(MyBaseTemplate)
 
     params {
         param("teamcity.ui.settings.readOnly", "false")
@@ -99,6 +102,7 @@ project {
 }
 
 object BuildConfA : BuildType({
+    templates(MyBaseTemplate)
     name = "Build Configuration A"
     description = "Build Configuration A"
 
@@ -114,11 +118,11 @@ object BuildConfA : BuildType({
 
     steps {
         script {
-            scriptContent = """
-            echo "Settings from: main"
-            """.trimIndent()
+            id = "RUNNER_1"
+            scriptContent = """echo "Settings from: main""""
         }
         dockerCommand {
+            id = "RUNNER_2"
             commandType = other {
                 subCommand = "login"
             }
@@ -127,24 +131,16 @@ object BuildConfA : BuildType({
 
     triggers {
         vcs {
+            id = "TRIGGER_1"
             triggerRules = "+:root=${DslContext.settingsRoot.id}:**"
 
             watchChangesInDependencies = true
         }
     }
 
-    dependencies {
-        snapshot(BuildConfB) {
-            onDependencyFailure = FailureAction.IGNORE
-            onDependencyCancel = FailureAction.CANCEL
-        }
-        artifacts(BuildConfC) {
-            artifactRules = "Installer*.exe"
-        }
-    }
-
     features {
         notifications {
+            id = "BUILD_EXT_1"
             notifierSettings = slackNotifier {
                 connection = "PROJECT_EXT_22"
                 sendTo = "#unit-905-teamcity-notificatons"
@@ -158,9 +154,21 @@ object BuildConfA : BuildType({
             buildStarted = true
         }
     }
+
+    dependencies {
+        snapshot(BuildConfB) {
+            onDependencyFailure = FailureAction.IGNORE
+            onDependencyCancel = FailureAction.CANCEL
+        }
+        artifacts(BuildConfC) {
+            id = "ARTIFACT_DEPENDENCY_1"
+            artifactRules = "Installer*.exe"
+        }
+    }
 })
 
 object BuildConfB : BuildType({
+    templates(MyBaseTemplate)
     name = "Build Configuration B"
     description = "Build Configuration B"
 
@@ -179,12 +187,14 @@ object BuildConfB : BuildType({
     steps {
         script {
             name = "Step 1"
+            id = "RUNNER_1"
             scriptContent = """echo "Run"       """
         }
     }
 
     triggers {
         vcs {
+            id = "TRIGGER_1"
             branchFilter = "+:<default>"
             watchChangesInDependencies = true
         }
@@ -200,6 +210,7 @@ object BuildConfB : BuildType({
             }
 
             artifacts {
+                id = "ARTIFACT_DEPENDENCY_1"
                 artifactRules = "Installer*.exe"
             }
         }
@@ -233,11 +244,9 @@ object BuildConfC : BuildType({
                 echo "Create Installer.exe" > output/Installer.exe
             """.trimIndent()
         }
-                script {
+        script {
             name = "Sleep"
-            scriptContent = """
-                echo %myToken% > token.txt
-            """.trimIndent()
+            scriptContent = "echo %myToken% > token.txt"
         }
     }
 
@@ -246,6 +255,21 @@ object BuildConfC : BuildType({
             triggerRules = "+:root=${DslContext.settingsRoot.id}:**"
 
             branchFilter = "+:<default>"
+        }
+    }
+})
+
+object MyBaseTemplate : Template({
+    name = "MyBaseTemplate"
+    description = "My Template for something"
+
+    failureConditions {
+        failOnMetricChange {
+            id = "BUILD_EXT_5"
+            metric = BuildFailureOnMetric.MetricType.ARTIFACT_SIZE
+            units = BuildFailureOnMetric.MetricUnit.DEFAULT_UNIT
+            comparison = BuildFailureOnMetric.MetricComparison.MORE
+            compareTo = value()
         }
     }
 })
