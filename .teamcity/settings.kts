@@ -45,6 +45,7 @@ project {
     params {
         param("myMetricThreshold", "%myMetricThreshold%")
         param("teamcity.ui.settings.readOnly", "false")
+        param("MyKey", "%MyKey%")
     }
 
     features {
@@ -109,6 +110,7 @@ object BuildConfA : BuildType({
 
     params {
         param("myMetricThreshold", "2")
+        param("MyKey","1")
         param("teamcity.vcsTrigger.runBuildInNewEmptyBranch", "true")
     }
 
@@ -179,6 +181,7 @@ object BuildConfB : BuildType({
     params {
         text("OUTPUT_DIR", "exported_systems", display = ParameterDisplay.HIDDEN, readOnly = true, allowEmpty = true)
         param("myMetricThreshold", "3")
+        param("MyKey","4")
         text("teamcity.buildQueue.allowMerging", "true", display = ParameterDisplay.HIDDEN, allowEmpty = true)
     }
 
@@ -274,6 +277,8 @@ object MyBaseTemplate : Template({
             comparison = BuildFailureOnMetric.MetricComparison.DIFF
             compareTo = value()
             param("metricThreshold", "%myMetricThreshold%")
+            param("metricKey", "MyKey")
+            param("anchorBuild", "lastSuccessful")
         }
     }
 })
