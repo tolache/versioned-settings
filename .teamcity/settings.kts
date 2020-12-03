@@ -265,11 +265,13 @@ object MyBaseTemplate : Template({
 
     failureConditions {
         failOnMetricChange {
-            id = "BUILD_EXT_5"
-            metric = BuildFailureOnMetric.MetricType.ARTIFACT_SIZE
+            id = "someFailureOnMetricChange"
+            threshold = 1 // I would like to dynamically change this
             units = BuildFailureOnMetric.MetricUnit.DEFAULT_UNIT
-            comparison = BuildFailureOnMetric.MetricComparison.MORE
+            comparison = BuildFailureOnMetric.MetricComparison.DIFF
             compareTo = value()
+            param("metricKey", "MyKey")
+            param("anchorBuild", "lastSuccessful")
         }
     }
 })
