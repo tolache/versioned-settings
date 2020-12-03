@@ -40,7 +40,7 @@ project {
     buildType(BuildConfC)
 
     params {
-        param("teamcity.ui.settings.readOnly", "true")
+        param("teamcity.ui.settings.readOnly", "false")
     }
 
     features {
