@@ -43,6 +43,7 @@ project {
     template(MyBaseTemplate)
 
     params {
+        param("myMetricThreshold", "%myMetricThreshold%")
         param("teamcity.ui.settings.readOnly", "false")
     }
 
@@ -107,6 +108,7 @@ object BuildConfA : BuildType({
     description = "Build Configuration A"
 
     params {
+        param("myMetricThreshold", "2")
         param("teamcity.vcsTrigger.runBuildInNewEmptyBranch", "true")
     }
 
@@ -176,6 +178,7 @@ object BuildConfB : BuildType({
 
     params {
         text("OUTPUT_DIR", "exported_systems", display = ParameterDisplay.HIDDEN, readOnly = true, allowEmpty = true)
+        param("myMetricThreshold", "3")
         text("teamcity.buildQueue.allowMerging", "true", display = ParameterDisplay.HIDDEN, allowEmpty = true)
     }
 
@@ -266,12 +269,11 @@ object MyBaseTemplate : Template({
     failureConditions {
         failOnMetricChange {
             id = "someFailureOnMetricChange"
-            threshold = 1 // I would like to dynamically change this
+            metric = BuildFailureOnMetric.MetricType.ARTIFACT_SIZE
             units = BuildFailureOnMetric.MetricUnit.DEFAULT_UNIT
             comparison = BuildFailureOnMetric.MetricComparison.DIFF
             compareTo = value()
-            param("metricKey", "MyKey")
-            param("anchorBuild", "lastSuccessful")
+            param("metricThreshold", "%myMetricThreshold%")
         }
     }
 })
