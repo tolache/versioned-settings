@@ -37,7 +37,7 @@ project {
 
     params {
         param("MyMetricThreshold", "%MyMetricThreshold%")
-        param("teamcity.ui.settings.readOnly", "false")
+        param("teamcity.ui.settings.readOnly", "true")
         text("SleepDuration", "%SleepDuration%", display = ParameterDisplay.PROMPT, allowEmpty = false)
     }
 
