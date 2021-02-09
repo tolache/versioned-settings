@@ -3,6 +3,7 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.notifications
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.script
 import jetbrains.buildServer.configs.kotlin.v2019_2.failureConditions.BuildFailureOnMetric
 import jetbrains.buildServer.configs.kotlin.v2019_2.failureConditions.failOnMetricChange
+import jetbrains.buildServer.configs.kotlin.v2019_2.vcs.GitVcsRoot
 
 /*
 The settings script is an entry point for defining a TeamCity
@@ -30,6 +31,8 @@ version = "2020.2"
 
 project {
 
+    vcsRoot(VersionedSettingsCopy)
+
     buildType(BuildConfA)
     buildType(BuildConfB)
 
@@ -37,8 +40,8 @@ project {
 
     params {
         param("MyMetricThreshold", "%MyMetricThreshold%")
-        param("teamcity.ui.settings.readOnly", "false")
         text("SleepDuration", "%SleepDuration%", display = ParameterDisplay.PROMPT, allowEmpty = false)
+        param("teamcity.ui.settings.readOnly", "false")
     }
 
     features {
@@ -178,5 +181,15 @@ object MyBaseTemplate : Template({
             }
             param("metricThreshold", "%MyMetricThreshold%")
         }
+    }
+})
+
+object VersionedSettingsCopy : GitVcsRoot({
+    name = "versioned-settings-copy"
+    url = "https://github.com/tolache/versioned-settings"
+    branch = "refs/heads/master"
+    authMethod = password {
+        userName = "tolache"
+        password = "credentialsJSON:7d8cca8e-bc35-4156-a965-0b32123691bc"
     }
 })
