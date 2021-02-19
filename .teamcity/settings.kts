@@ -1,10 +1,9 @@
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
-import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.script
-import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.vcs
-import jetbrains.buildServer.configs.kotlin.v2019_2.vcs.GitVcsRoot
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.notifications
-import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.dockerSupport
-import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.dockerCommand
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.script
+import jetbrains.buildServer.configs.kotlin.v2019_2.failureConditions.BuildFailureOnMetric
+import jetbrains.buildServer.configs.kotlin.v2019_2.failureConditions.failOnMetricChange
+import jetbrains.buildServer.configs.kotlin.v2019_2.vcs.GitVcsRoot
 
 /*
 The settings script is an entry point for defining a TeamCity
@@ -32,14 +31,16 @@ version = "2020.2"
 
 project {
 
-    vcsRoot(SettingsRootCopy)
-    vcsRoot(RepoD)
+    vcsRoot(VersionedSettingsCopy)
 
     buildType(BuildConfA)
     buildType(BuildConfB)
-    buildType(BuildConfC)
+
+    template(MyBaseTemplate)
 
     params {
+        param("MyMetricThreshold", "%MyMetricThreshold%")
+        text("SleepDuration", "%SleepDuration%", display = ParameterDisplay.PROMPT, allowEmpty = false)
         param("teamcity.ui.settings.readOnly", "false")
     }
 
@@ -99,11 +100,12 @@ project {
 }
 
 object BuildConfA : BuildType({
+    templates(MyBaseTemplate)
     name = "Build Configuration A"
     description = "Build Configuration A"
 
     params {
-        param("teamcity.vcsTrigger.runBuildInNewEmptyBranch", "true")
+        param("MyMetricThreshold", "60")
     }
 
     vcs {
@@ -114,42 +116,14 @@ object BuildConfA : BuildType({
 
     steps {
         script {
-            scriptContent = """
-            echo "Settings from: develop"
-            """.trimIndent()
-        }
-        dockerCommand {
-            commandType = other {
-                subCommand = "login"
-            }
-        }
-    }
-
-    triggers {
-        vcs {
-            triggerRules = "+:root=${DslContext.settingsRoot.id}:**"
-
-            watchChangesInDependencies = true
-        }
-    }
-
-    dependencies {
-        snapshot(BuildConfB) {
-            onDependencyFailure = FailureAction.IGNORE
-            onDependencyCancel = FailureAction.CANCEL
-        }
-        artifacts(BuildConfC) {
-            artifactRules = "Installer*.exe"
+            id = "RUNNER_1"
+            scriptContent = "sleep %SleepDuration%"
         }
     }
 
     features {
-        dockerSupport {
-            loginToRegistry = on {
-                dockerRegistryId = "PROJECT_EXT_20"
-            }
-        }
         notifications {
+            id = "BUILD_EXT_1"
             notifierSettings = slackNotifier {
                 connection = "PROJECT_EXT_22"
                 sendTo = "#unit-905-teamcity-notificatons"
@@ -169,11 +143,8 @@ object BuildConfB : BuildType({
     name = "Build Configuration B"
     description = "Build Configuration B"
 
-    artifactRules = "%OUTPUT_DIR%/*.exe"
-
     params {
-        text("OUTPUT_DIR", "exported_systems", display = ParameterDisplay.HIDDEN, readOnly = true, allowEmpty = true)
-        text("teamcity.buildQueue.allowMerging", "true", display = ParameterDisplay.HIDDEN, allowEmpty = true)
+        param("MyMetricThreshold", "30")
     }
 
     vcs {
@@ -184,96 +155,50 @@ object BuildConfB : BuildType({
     steps {
         script {
             name = "Step 1"
-            scriptContent = """echo "Run"       """
-        }
-    }
-
-    triggers {
-        vcs {
-            branchFilter = "+:<default>"
-            watchChangesInDependencies = true
+            id = "RUNNER_1"
+            scriptContent = """
+                echo "##teamcity[testStarted name='Test1']"
+                echo "##teamcity[testFinished name='Test1' duration='123']"
+            """.trimIndent()
         }
     }
 
     failureConditions {
-        executionTimeoutMin = 60
-    }
-
-    dependencies {
-        dependency(BuildConfC) {
-            snapshot {
-            }
-
-            artifacts {
-                artifactRules = "Installer*.exe"
-            }
+        executionTimeoutMin = 666
+        failOnMetricChange {
+            metric = BuildFailureOnMetric.MetricType.TEST_COUNT
+            threshold = 2
+            units = BuildFailureOnMetric.MetricUnit.DEFAULT_UNIT
+            comparison = BuildFailureOnMetric.MetricComparison.LESS
+            compareTo = value()
         }
     }
 })
 
-object BuildConfC : BuildType({
-    name = "Build Configuration C"
-    description = "Build Configuration C"
+object MyBaseTemplate : Template({
+    name = "MyBaseTemplate"
+    description = "My Template for something"
 
-    allowExternalStatus = true
-    artifactRules = """output\Installer*.exe"""
-    maxRunningBuilds = 1
-
-    params {
-        password("myToken", "credentialsJSON:938a7f8b-8130-4c45-9373-b537839c7116")
-    }
-
-    vcs {
-        root(RepoD, "-:fileE.txt")
-
-        cleanCheckout = true
-        showDependenciesChanges = true
-    }
-
-    steps {
-        script {
-            name = "Step 1"
-            scriptContent = """
-                mkdir output
-                echo "Create Installer.exe" > output/Installer.exe
-            """.trimIndent()
-        }
-                script {
-            name = "Sleep"
-            scriptContent = """
-                echo %myToken% > token.txt
-            """.trimIndent()
-        }
-    }
-
-    triggers {
-        vcs {
-            triggerRules = "+:root=${DslContext.settingsRoot.id}:**"
-
-            branchFilter = "+:<default>"
+    failureConditions {
+        failOnMetricChange {
+            id = "someFailureOnMetricChange"
+            metric = BuildFailureOnMetric.MetricType.BUILD_DURATION
+            units = BuildFailureOnMetric.MetricUnit.DEFAULT_UNIT
+            comparison = BuildFailureOnMetric.MetricComparison.DIFF
+            compareTo = build {
+                buildRule = lastSuccessful()
+            }
+            param("metricThreshold", "%MyMetricThreshold%")
         }
     }
 })
 
-object RepoD : GitVcsRoot({
-    name = "repoD"
-    url = "https://github.com/tolache/repoD"
-    branchSpec = """
-        +:refs/tags/*
-        +:refs/heads/*
-    """.trimIndent()
+object VersionedSettingsCopy : GitVcsRoot({
+    name = "versioned-settings-copy"
+    url = "https://github.com/tolache/versioned-settings"
+    branch = "refs/heads/master"
     authMethod = password {
         userName = "tolache"
-        password = "credentialsJSON:17f19de6-3eb1-4a76-a724-40edd8f3a9e4"
-    }
-})
-
-object SettingsRootCopy : GitVcsRoot({
-    name = "settings-root-copy"
-    url = "git@github.com:tolache/versioned-settings.git"
-    branchSpec = "refs/heads/*"
-    authMethod = uploadedKey {
-        userName = "git"
-        uploadedKey = "github.pem"
+        password = "credentialsJSON:7d8cca8e-bc35-4156-a965-0b32123691bc"
     }
 })
