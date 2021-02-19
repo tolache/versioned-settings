@@ -159,6 +159,8 @@ object BuildConfB : BuildType({
             scriptContent = """
                 echo "##teamcity[testStarted name='Test1']"
                 echo "##teamcity[testFinished name='Test1' duration='123']"
+                echo "##teamcity[testStarted name='Test2']"
+                echo "##teamcity[testFinished name='Test2' duration='456']"
             """.trimIndent()
         }
     }
@@ -167,7 +169,7 @@ object BuildConfB : BuildType({
         executionTimeoutMin = 666
         failOnMetricChange {
             metric = BuildFailureOnMetric.MetricType.TEST_COUNT
-            threshold = 2
+            threshold = 3
             units = BuildFailureOnMetric.MetricUnit.DEFAULT_UNIT
             comparison = BuildFailureOnMetric.MetricComparison.LESS
             compareTo = value()
