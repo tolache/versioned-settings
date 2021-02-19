@@ -140,7 +140,6 @@ object BuildConfA : BuildType({
 })
 
 object BuildConfB : BuildType({
-    templates(MyBaseTemplate)
     name = "Build Configuration B"
     description = "Build Configuration B"
 
@@ -157,12 +156,24 @@ object BuildConfB : BuildType({
         script {
             name = "Step 1"
             id = "RUNNER_1"
-            scriptContent = "Sleep %SleepDuration%"
+            scriptContent = """
+                echo "##teamcity[testStarted name='Test1']"
+                echo "##teamcity[testFinished name='Test1' duration='123']"
+                echo "##teamcity[testStarted name='Test2']"
+                echo "##teamcity[testFinished name='Test2' duration='456']"
+            """.trimIndent()
         }
     }
 
     failureConditions {
-        executionTimeoutMin = 60
+        executionTimeoutMin = 666
+        failOnMetricChange {
+            metric = BuildFailureOnMetric.MetricType.TEST_COUNT
+            threshold = 2
+            units = BuildFailureOnMetric.MetricUnit.DEFAULT_UNIT
+            comparison = BuildFailureOnMetric.MetricComparison.LESS
+            compareTo = value()
+        }
     }
 })
 
