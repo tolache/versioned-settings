@@ -97,6 +97,23 @@ project {
             param("terminate-idle-time", "10")
         }
     }
+
+    cleanup {
+        preventDependencyCleanup = false
+        // clean up build logs after 1000 builds or 90 days. last reachable rule applies
+        history(builds = 1000, days = 90)
+
+        artifacts(
+            days = 2,
+            builds = 7,
+            artifactPatterns = """
+                +:**/*
+                -:uploaded-files
+                -:release-prep-reports/
+                -:release-reports/
+                -:s3-upload-lists/
+            """.trimIndent())
+    }
 }
 
 object BuildConfA : BuildType({
