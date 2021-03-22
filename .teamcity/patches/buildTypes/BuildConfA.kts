@@ -23,7 +23,7 @@ changeBuildType(RelativeId("BuildConfA")) {
             clearConditions()
             scriptContent = """
                 sleep %SleepDuration%
-                echo "this chage was made through UI 3"
+                echo "this chage was made through UI 4"
             """.trimIndent()
         }
     }
