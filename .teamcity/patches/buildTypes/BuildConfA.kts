@@ -11,6 +11,10 @@ To apply the patch, change the buildType with id = 'BuildConfA'
 accordingly, and delete the patch script.
 */
 changeBuildType(RelativeId("BuildConfA")) {
+    vcs {
+        add(DslContext.settingsRoot.id!!)
+    }
+
     expectSteps {
         script {
             id = "RUNNER_1"
