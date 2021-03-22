@@ -176,6 +176,7 @@ object BuildConfB : BuildType({
             name = "Step 1"
             id = "RUNNER_1"
             scriptContent = """
+                echo "this line is added by a VCS commit"
                 echo "##teamcity[testStarted name='Test1']"
                 echo "##teamcity[testFinished name='Test1' duration='123']"
                 echo "##teamcity[testStarted name='Test2']"
