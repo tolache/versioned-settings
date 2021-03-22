@@ -97,6 +97,23 @@ project {
             param("terminate-idle-time", "10")
         }
     }
+
+    cleanup {
+        preventDependencyCleanup = false
+        // clean up build logs after 1000 builds or 90 days. last reachable rule applies
+        history(builds = 1000, days = 90)
+
+        artifacts(
+            days = 2,
+            builds = 7,
+            artifactPatterns = """
+                +:**/*
+                -:uploaded-files
+                -:release-prep-reports/
+                -:release-reports/
+                -:s3-upload-lists/
+            """.trimIndent())
+    }
 }
 
 object BuildConfA : BuildType({
@@ -117,7 +134,7 @@ object BuildConfA : BuildType({
     steps {
         script {
             id = "RUNNER_1"
-            scriptContent = "sleep %SleepDuration%"
+            scriptContent = "echo this-is-an-edit-via-vcs-commit"
         }
     }
 
@@ -171,7 +188,7 @@ object BuildConfB : BuildType({
         executionTimeoutMin = 666
         failOnMetricChange {
             metric = BuildFailureOnMetric.MetricType.TEST_COUNT
-            threshold = 3
+            threshold = 2
             units = BuildFailureOnMetric.MetricUnit.DEFAULT_UNIT
             comparison = BuildFailureOnMetric.MetricComparison.LESS
             compareTo = value()
