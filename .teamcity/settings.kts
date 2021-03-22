@@ -134,7 +134,7 @@ object BuildConfA : BuildType({
     steps {
         script {
             id = "RUNNER_1"
-            scriptContent = "sleep %SleepDuration%"
+            scriptContent = "echo this-is-an-edit-via-vcs-commit"
         }
     }
 
