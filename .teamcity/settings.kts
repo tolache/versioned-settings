@@ -135,7 +135,7 @@ object BuildConfA : BuildType({
             id = "RUNNER_1"
             scriptContent = """
                 sleep %SleepDuration%
-                echo "this chage was made through UI 7"
+                echo "this chage was made through UI 8"
             """.trimIndent()
         }
     }
@@ -177,7 +177,7 @@ object BuildConfB : BuildType({
         script {
             name = "Step 1"
             scriptContent = """
-                echo "VCS change 2"
+                echo "VCS change 1"
                 echo "##teamcity[testStarted name='Test1']"
                 echo "##teamcity[testFinished name='Test1' duration='123']"
                 echo "##teamcity[testStarted name='Test2']"
