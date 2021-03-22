@@ -99,20 +99,17 @@ project {
     }
 
     cleanup {
-        preventDependencyCleanup = false
-        // clean up build logs after 1000 builds or 90 days. last reachable rule applies
-        history(builds = 1000, days = 90)
-
-        artifacts(
-            days = 2,
-            builds = 7,
-            artifactPatterns = """
+        baseRule {
+            history(builds = 1000, days = 90)
+            artifacts(builds = 7, days = 2, artifactPatterns = """
                 +:**/*
                 -:uploaded-files
                 -:release-prep-reports/
                 -:release-reports/
                 -:s3-upload-lists/
             """.trimIndent())
+            preventDependencyCleanup = false
+        }
     }
 }
 
@@ -126,6 +123,8 @@ object BuildConfA : BuildType({
     }
 
     vcs {
+        root(DslContext.settingsRoot)
+
         cleanCheckout = true
         excludeDefaultBranchChanges = true
         showDependenciesChanges = true
@@ -134,7 +133,10 @@ object BuildConfA : BuildType({
     steps {
         script {
             id = "RUNNER_1"
-            scriptContent = "echo this-is-an-edit-via-vcs-commit"
+            scriptContent = """
+                sleep %SleepDuration%
+                echo "this chage was made through UI 7"
+            """.trimIndent()
         }
     }
 
@@ -174,9 +176,7 @@ object BuildConfB : BuildType({
     steps {
         script {
             name = "Step 1"
-            id = "RUNNER_1"
             scriptContent = """
-                echo "this line is added by a VCS commit"
                 echo "##teamcity[testStarted name='Test1']"
                 echo "##teamcity[testFinished name='Test1' duration='123']"
                 echo "##teamcity[testStarted name='Test2']"

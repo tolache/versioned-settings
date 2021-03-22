@@ -22,7 +22,7 @@
     </repository>
     <repository>
       <id>teamcity-server</id>
-      <url>http://unit-905.labs.intellij.net:8110/app/dsl-plugins-repository</url>
+      <url>http://tola-ws2019.labs.intellij.net/app/dsl-plugins-repository</url>
       <snapshots>
         <enabled>true</enabled>
       </snapshots>
