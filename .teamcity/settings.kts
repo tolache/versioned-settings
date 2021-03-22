@@ -177,7 +177,7 @@ object BuildConfB : BuildType({
         script {
             name = "Step 1"
             scriptContent = """
-                echo "VCS change 1"
+                echo "VCS change 2"
                 echo "##teamcity[testStarted name='Test1']"
                 echo "##teamcity[testFinished name='Test1' duration='123']"
                 echo "##teamcity[testStarted name='Test2']"
