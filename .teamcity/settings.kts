@@ -154,12 +154,15 @@ object Package01 : BuildType({
 
     dependencies {
         snapshot(Build01) {
+            reuseBuilds = ReuseBuilds.NO
             onDependencyFailure = FailureAction.FAIL_TO_START
         }
         snapshot(Build02) {
+            reuseBuilds = ReuseBuilds.NO
             onDependencyFailure = FailureAction.FAIL_TO_START
         }
         snapshot(Build03) {
+            reuseBuilds = ReuseBuilds.NO
             onDependencyFailure = FailureAction.FAIL_TO_START
         }
     }
@@ -170,9 +173,11 @@ object Package02 : BuildType({
 
     dependencies {
         snapshot(Build02) {
+            reuseBuilds = ReuseBuilds.NO
             onDependencyFailure = FailureAction.FAIL_TO_START
         }
         snapshot(Build03) {
+            reuseBuilds = ReuseBuilds.NO
             onDependencyFailure = FailureAction.FAIL_TO_START
         }
     }
@@ -189,9 +194,11 @@ object Overview01 : BuildType({
 
     dependencies {
         snapshot(Package01) {
+            reuseBuilds = ReuseBuilds.NO
             onDependencyFailure = FailureAction.FAIL_TO_START
         }
         snapshot(Package02) {
+            reuseBuilds = ReuseBuilds.NO
             onDependencyFailure = FailureAction.FAIL_TO_START
         }
     }
