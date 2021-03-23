@@ -1,4 +1,5 @@
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.powerShell
 import jetbrains.buildServer.configs.kotlin.v2019_2.vcs.GitVcsRoot
 
 /*
@@ -29,16 +30,14 @@ project {
 
     vcsRoot(VersionedSettingsCopy)
 
-    buildType(Build03)
-    buildType(Package02)
-    buildType(Build02)
-    buildType(Overview01)
     buildType(Build01)
+    buildType(Build02)
+    buildType(Build03)
     buildType(Package01)
+    buildType(Package02)
+    buildType(Overview01)
 
     params {
-        param("MyMetricThreshold", "%MyMetricThreshold%")
-        text("SleepDuration", "%SleepDuration%", display = ParameterDisplay.PROMPT, allowEmpty = false)
         param("teamcity.ui.settings.readOnly", "false")
     }
 
@@ -113,26 +112,89 @@ project {
 
 object Build01 : BuildType({
     name = "Build01"
+
+    steps {
+        powerShell {
+            scriptMode = script {
+                content = "Start-Sleep -s 60"
+            }
+        }
+    }
 })
 
 object Build02 : BuildType({
     name = "Build02"
+
+    steps {
+        powerShell {
+            scriptMode = script {
+                content = """
+                    Start-Sleep -s 10
+                    Exit 1
+                """.trimIndent()
+            }
+        }
+    }
 })
 
 object Build03 : BuildType({
     name = "Build03"
-})
 
-object Overview01 : BuildType({
-    name = "Overview01"
+    steps {
+        powerShell {
+            scriptMode = script {
+                content = "Start-Sleep -s 60"
+            }
+        }
+    }
 })
 
 object Package01 : BuildType({
     name = "Package01"
+
+    dependencies {
+        snapshot(Build01) {
+            onDependencyFailure = FailureAction.FAIL_TO_START
+        }
+        snapshot(Build02) {
+            onDependencyFailure = FailureAction.FAIL_TO_START
+        }
+        snapshot(Build03) {
+            onDependencyFailure = FailureAction.FAIL_TO_START
+        }
+    }
 })
 
 object Package02 : BuildType({
     name = "Package02"
+
+    dependencies {
+        snapshot(Build02) {
+            onDependencyFailure = FailureAction.FAIL_TO_START
+        }
+        snapshot(Build03) {
+            onDependencyFailure = FailureAction.FAIL_TO_START
+        }
+    }
+})
+
+object Overview01 : BuildType({
+    name = "Overview01"
+
+    type = Type.COMPOSITE
+
+    vcs {
+        showDependenciesChanges = true
+    }
+
+    dependencies {
+        snapshot(Package01) {
+            onDependencyFailure = FailureAction.FAIL_TO_START
+        }
+        snapshot(Package02) {
+            onDependencyFailure = FailureAction.FAIL_TO_START
+        }
+    }
 })
 
 object VersionedSettingsCopy : GitVcsRoot({
