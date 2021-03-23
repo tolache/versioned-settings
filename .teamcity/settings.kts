@@ -1,8 +1,4 @@
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
-import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.notifications
-import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.script
-import jetbrains.buildServer.configs.kotlin.v2019_2.failureConditions.BuildFailureOnMetric
-import jetbrains.buildServer.configs.kotlin.v2019_2.failureConditions.failOnMetricChange
 import jetbrains.buildServer.configs.kotlin.v2019_2.vcs.GitVcsRoot
 
 /*
@@ -33,10 +29,12 @@ project {
 
     vcsRoot(VersionedSettingsCopy)
 
-    buildType(BuildConfA)
-    buildType(BuildConfB)
-
-    template(MyBaseTemplate)
+    buildType(Build03)
+    buildType(Package02)
+    buildType(Build02)
+    buildType(Overview01)
+    buildType(Build01)
+    buildType(Package01)
 
     params {
         param("MyMetricThreshold", "%MyMetricThreshold%")
@@ -113,107 +111,28 @@ project {
     }
 }
 
-object BuildConfA : BuildType({
-    templates(MyBaseTemplate)
-    name = "Build Configuration A"
-    description = "Build Configuration A"
-
-    params {
-        param("MyMetricThreshold", "60")
-    }
-
-    vcs {
-        root(DslContext.settingsRoot)
-
-        cleanCheckout = true
-        excludeDefaultBranchChanges = true
-        showDependenciesChanges = true
-    }
-
-    steps {
-        script {
-            id = "RUNNER_1"
-            scriptContent = """
-                sleep %SleepDuration%
-                echo "this chage was made through UI 8"
-            """.trimIndent()
-        }
-    }
-
-    features {
-        notifications {
-            id = "BUILD_EXT_1"
-            notifierSettings = slackNotifier {
-                connection = "PROJECT_EXT_22"
-                sendTo = "#unit-905-teamcity-notificatons"
-                messageFormat = verboseMessageFormat {
-                    addBranch = true
-                    addChanges = true
-                    addStatusText = true
-                    maximumNumberOfChanges = 10
-                }
-            }
-            buildStarted = true
-        }
-    }
+object Build01 : BuildType({
+    name = "Build01"
 })
 
-object BuildConfB : BuildType({
-    name = "Build Configuration B"
-    description = "Build Configuration B"
-
-    params {
-        param("MyMetricThreshold", "30")
-    }
-
-    vcs {
-        root(DslContext.settingsRoot)
-
-        checkoutMode = CheckoutMode.ON_SERVER
-        showDependenciesChanges = true
-    }
-
-    steps {
-        script {
-            name = "Step 1"
-            scriptContent = """
-                echo "VCS change 1"
-                echo "##teamcity[testStarted name='Test1']"
-                echo "##teamcity[testFinished name='Test1' duration='123']"
-                echo "##teamcity[testStarted name='Test2']"
-                echo "##teamcity[testFinished name='Test2' duration='456']"
-            """.trimIndent()
-        }
-    }
-
-    failureConditions {
-        executionTimeoutMin = 666
-        failOnMetricChange {
-            metric = BuildFailureOnMetric.MetricType.TEST_COUNT
-            threshold = 2
-            units = BuildFailureOnMetric.MetricUnit.DEFAULT_UNIT
-            comparison = BuildFailureOnMetric.MetricComparison.LESS
-            compareTo = value()
-        }
-    }
+object Build02 : BuildType({
+    name = "Build02"
 })
 
-object MyBaseTemplate : Template({
-    name = "MyBaseTemplate"
-    description = "My Template for something"
+object Build03 : BuildType({
+    name = "Build03"
+})
 
-    failureConditions {
-        failOnMetricChange {
-            id = "someFailureOnMetricChange"
-            metric = BuildFailureOnMetric.MetricType.BUILD_DURATION
-            units = BuildFailureOnMetric.MetricUnit.DEFAULT_UNIT
-            comparison = BuildFailureOnMetric.MetricComparison.DIFF
-            compareTo = build {
-                buildRule = lastSuccessful()
-            }
-            param("metricThreshold", "%MyMetricThreshold%")
-        }
-    }
+object Overview01 : BuildType({
+    name = "Overview01"
+})
+
+object Package01 : BuildType({
+    name = "Package01"
+})
+
+object Package02 : BuildType({
+    name = "Package02"
 })
 
 object VersionedSettingsCopy : GitVcsRoot({
