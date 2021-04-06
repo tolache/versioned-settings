@@ -130,7 +130,7 @@ object Build02 : BuildType({
             scriptMode = script {
                 content = """
                     Start-Sleep -s 10
-                    Exit 1
+                    Exit 0
                 """.trimIndent()
             }
         }
