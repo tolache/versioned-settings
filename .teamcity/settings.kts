@@ -120,7 +120,7 @@ object Build01 : BuildType({
     steps {
         powerShell {
             scriptMode = script {
-                content = "Start-Sleep -s 60"
+                content = "Start-Sleep -s 10"
             }
         }
     }
@@ -147,7 +147,7 @@ object Build03 : BuildType({
     steps {
         powerShell {
             scriptMode = script {
-                content = "Start-Sleep -s 60"
+                content = "Start-Sleep -s 10"
             }
         }
     }
