@@ -113,6 +113,10 @@ project {
 object Build01 : BuildType({
     name = "Build01"
 
+    vcs {
+        root(DslContext.settingsRoot)
+    }
+
     steps {
         powerShell {
             scriptMode = script {
