@@ -133,7 +133,7 @@ object Build02 : BuildType({
         powerShell {
             scriptMode = script {
                 content = """
-                    Start-Sleep -s 1
+                    Start-Sleep -s 2
                     Exit 0
                 """.trimIndent()
             }
