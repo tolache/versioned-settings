@@ -114,7 +114,7 @@ object Build01 : BuildType({
     name = "Build01"
 
     vcs {
-        root(DslContext.settingsRoot)
+        root(DslContext.settingsRoot, "-:.teamcity")
     }
 
     steps {
