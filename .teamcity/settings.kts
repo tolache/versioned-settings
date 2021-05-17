@@ -1,5 +1,4 @@
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
-import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.powerShell
 import jetbrains.buildServer.configs.kotlin.v2019_2.vcs.GitVcsRoot
 
 /*
@@ -29,13 +28,6 @@ version = "2020.2"
 project {
 
     vcsRoot(VersionedSettingsCopy)
-
-    buildType(Build01)
-    buildType(Build02)
-    buildType(Build03)
-    buildType(Package01)
-    buildType(Package02)
-    buildType(Overview01)
 
     params {
         param("teamcity.ui.settings.readOnly", "false")
@@ -108,101 +100,10 @@ project {
             preventDependencyCleanup = false
         }
     }
+
+    subProject(ProjectB)
+    subProject(ProjectA)
 }
-
-object Build01 : BuildType({
-    name = "Build01"
-
-    vcs {
-        root(AbsoluteId("BuildChain_RepoA"), "-:dir1")
-    }
-
-    steps {
-        powerShell {
-            scriptMode = script {
-                content = "Start-Sleep -s 10"
-            }
-        }
-    }
-})
-
-object Build02 : BuildType({
-    name = "Build02"
-
-    steps {
-        powerShell {
-            scriptMode = script {
-                content = """
-                    Start-Sleep -s 3
-                    Exit 0
-                """.trimIndent()
-            }
-        }
-    }
-})
-
-object Build03 : BuildType({
-    name = "Build03"
-
-    steps {
-        powerShell {
-            scriptMode = script {
-                content = "Start-Sleep -s 10"
-            }
-        }
-    }
-})
-
-object Package01 : BuildType({
-    name = "Package01"
-
-    dependencies {
-        snapshot(Build01) {
-            reuseBuilds = ReuseBuilds.SUCCESSFUL
-            onDependencyFailure = FailureAction.FAIL_TO_START
-        }
-        snapshot(Build02) {
-            reuseBuilds = ReuseBuilds.SUCCESSFUL
-            onDependencyFailure = FailureAction.FAIL_TO_START
-        }
-    }
-})
-
-object Package02 : BuildType({
-    name = "Package02"
-
-    dependencies {
-        snapshot(Build02) {
-            reuseBuilds = ReuseBuilds.SUCCESSFUL
-            onDependencyFailure = FailureAction.FAIL_TO_START
-        }
-        snapshot(Build03) {
-            reuseBuilds = ReuseBuilds.SUCCESSFUL
-            onDependencyFailure = FailureAction.FAIL_TO_START
-        }
-    }
-})
-
-object Overview01 : BuildType({
-    name = "Overview01"
-
-    type = Type.COMPOSITE
-
-    vcs {
-        showDependenciesChanges = true
-    }
-
-    dependencies {
-        snapshot(Package01) {
-            reuseBuilds = ReuseBuilds.NO
-            onDependencyFailure = FailureAction.FAIL_TO_START
-        }
-        snapshot(Package02) {
-            reuseBuilds = ReuseBuilds.NO
-            onDependencyFailure = FailureAction.FAIL_TO_START
-        }
-    }
-})
 
 object VersionedSettingsCopy : GitVcsRoot({
     name = "versioned-settings-copy"
@@ -212,4 +113,47 @@ object VersionedSettingsCopy : GitVcsRoot({
         userName = "tolache"
         password = "credentialsJSON:7d8cca8e-bc35-4156-a965-0b32123691bc"
     }
+})
+
+
+object ProjectA : Project({
+    name = "Project A"
+
+    vcsRoot(ProjectA_RepoA)
+
+    buildType(ProjectA_Build2)
+    buildType(ProjectA_Build1)
+
+    subProject(ProjectA_SubProject1)
+})
+
+object ProjectA_Build1 : BuildType({
+    name = "Build 1"
+})
+
+object ProjectA_Build2 : BuildType({
+    name = "Build 2"
+})
+
+object ProjectA_RepoA : GitVcsRoot({
+    name = "repoA"
+    url = "https://github.com/tolache/repoA"
+    branch = "refs/heads/master"
+    param("oauthProviderId", "PROJECT_EXT_2")
+})
+
+
+object ProjectA_SubProject1 : Project({
+    name = "Sub-Project 1"
+
+    buildType(ProjectA_SubProject1_Build3)
+})
+
+object ProjectA_SubProject1_Build3 : BuildType({
+    name = "Build 3"
+})
+
+
+object ProjectB : Project({
+    name = "Project B"
 })
