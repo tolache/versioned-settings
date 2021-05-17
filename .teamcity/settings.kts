@@ -1,4 +1,5 @@
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.script
 import jetbrains.buildServer.configs.kotlin.v2019_2.vcs.GitVcsRoot
 
 /*
@@ -129,10 +130,38 @@ object ProjectA : Project({
 
 object ProjectA_Build1 : BuildType({
     name = "Build 1"
+
+    vcs {
+        root(ProjectA_RepoA)
+    }
+
+    steps {
+        script {
+            scriptContent = """
+                echo "Starting a dummy build."
+                sleep 1
+                echo "Finished."
+            """.trimIndent()
+        }
+    }
 })
 
 object ProjectA_Build2 : BuildType({
     name = "Build 2"
+
+    vcs {
+        root(ProjectA_RepoA)
+    }
+
+    steps {
+        script {
+            scriptContent = """
+                echo "Starting another dummy build."
+                sleep 2
+                echo "Finished."
+            """.trimIndent()
+        }
+    }
 })
 
 object ProjectA_RepoA : GitVcsRoot({
