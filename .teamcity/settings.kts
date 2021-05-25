@@ -146,7 +146,7 @@ object ProjectA_Build1 : BuildType({
     }
 
     requirements {
-        equals("teamcity.agent.name", "WS2019-Agent1")
+        equals("teamcity.agent.name", "WS2019-Agent2")
     }
 })
 
