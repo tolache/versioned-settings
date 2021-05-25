@@ -110,7 +110,6 @@ object VersionedSettingsCopy : GitVcsRoot({
     name = "versioned-settings-copy"
     url = "https://github.com/tolache/versioned-settings"
     branch = "refs/heads/master"
-    branchSpec = "refs/heads/*"
     authMethod = password {
         userName = "tolache"
         password = "credentialsJSON:7d8cca8e-bc35-4156-a965-0b32123691bc"
