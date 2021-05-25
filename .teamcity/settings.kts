@@ -172,6 +172,7 @@ object ProjectA_RepoA : GitVcsRoot({
     name = "repoA"
     url = "https://github.com/tolache/repoA"
     branch = "refs/heads/master"
+    branchSpec = "refs/heads/*"
     param("oauthProviderId", "PROJECT_EXT_2")
 })
 
