@@ -138,7 +138,7 @@ object ProjectA_Build1 : BuildType({
     steps {
         script {
             scriptContent = """
-                echo "Starting a dummy build."
+                echo "Starting a dummy build in develop branch."
                 sleep 1
                 echo "Finished."
             """.trimIndent()
