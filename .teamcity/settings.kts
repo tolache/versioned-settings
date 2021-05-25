@@ -122,8 +122,8 @@ object ProjectA : Project({
 
     vcsRoot(ProjectA_RepoA)
 
-    buildType(ProjectA_Build2)
     buildType(ProjectA_Build1)
+    buildType(ProjectA_Build2)
 
     subProject(ProjectA_SubProject1)
 })
@@ -143,6 +143,10 @@ object ProjectA_Build1 : BuildType({
                 echo "Finished."
             """.trimIndent()
         }
+    }
+
+    requirements {
+        equals("teamcity.agent.name", "WS2019-Agent1")
     }
 })
 
